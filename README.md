@@ -22,7 +22,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 
 ## To Do List
 
-- [ ] Add an exit button
+- [X] Add an exit button
 - [ ] Add more languages
 - [ ] Be able to customize attributes
 
