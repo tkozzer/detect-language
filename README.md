@@ -23,7 +23,11 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 ## To Do List
 
 - [X] Add an exit button
-- [ ] Add more languages
+- Add more languages
+  - [X] Spanish
+  - [X] German
+  - [ ] Portugese
+  - [ ] French
 - [ ] Be able to customize attributes
 - [ ] Add windows compatibility
 - [ ] Add multiple python version compatibility
