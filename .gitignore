@@ -132,4 +132,5 @@ dmypy.json
 .vscode/
 
 #env
+/lang-env
 .lang-env/
