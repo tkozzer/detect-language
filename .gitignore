@@ -130,3 +130,6 @@ dmypy.json
 
 # VS code config files
 .vscode/
+
+#env
+.lang-env/

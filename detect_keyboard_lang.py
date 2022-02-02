@@ -1,9 +1,5 @@
 import os
 import json
-import plistlib
-from io import StringIO
-from plistlib import readPlist
-from textwrap import indent
 
 """ 
 Simple method that uses a command line execution to get the value of the keyboard input language. The
@@ -11,54 +7,34 @@ only two langauges that are accepted at the moment are Chinese and English. Ther
 to see if English is detected or nothing is detected. It gets a bit complicated detecting Pinyin (Chinese), so
 it comes up empty. This will suffice for now since this is a tool to help with Duolingo exercises.
 """
+class Language:
+
+    def __init__(self) -> None:
+        self.load_available_languages()
+        self.current_language = self.get_current_language()
+
+    def load_available_languages(self):
+        #TODO check to make sure a language.json exists
+
+        #TODO check list of AppleLanguages to determine which one the user has available
+        
+        with open('language.json', 'r') as lang_json:
+            self.languages = json.load(lang_json)
+
+    def get_current_language(self) -> dict:
+
+        # Use the command line to read current keylayout
+        keyboard_layout = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID"
+
+        data = os.popen(keyboard_layout)
+        output = data.read().strip()
+        output = output.split('.')
+
+        return self.languages[output[-1]]
 
 
-def detect_keyboard_language():
-    language = {}
-    # Use the command line to
-    get_list = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources"
-    search_for_keyboard = "egrep -w 'KeyboardLayout Name'"
-    search_for_input_mode = "egrep -w 'Input Mode'"
 
-    # with open('/Library/Preferences/com.apple.HIToolbox.plist', 'rb') as itl:
-    #     library = plistlib.load(itl)
+# current = Language()
+# print(current.get_current_language())
 
-    # print(json.dumps(library,indent=4))
 
-    # data = os.popen("plutil -convert json -o - ~/Library/Preferences/com.apple.HIToolbox.plist")
-    # output = data.read()
-
-    # output = json.loads(output)
-    # print(json.dumps(output['AppleSelectedInputSources'],indent=4))
-    # print(type(output))
-
-    # stream = os.popen(f"{get_list} | {search_for_keyboard}")
-    # output = stream.read()
-
-    # if(len(output) == 0):
-    #     stream = os.popen(f"{get_list} | {search_for_input_mode}")
-    #     output = stream.read()
-
-    # in_file = StringIO(output)
-    # plist_dict = readPlist(in_file)
-
-    # print(json.dumps(plist_dict))
-
-    # check_keyboard = check_keyboard.read()
-    # print(len(check_keyboard))
-    # print(check_keyboard.replace("=", ":").replace("(", "{").replace(")", "}"))
-    # output = json.dumps(check_keyboard)
-    # print(output.strip())
-    # output = output.replace("\"", "").replace(";", "").strip().split("=")
-
-    # print(output)
-
-    # if(len(output) > 1):
-    #     output_dict = {'name': output[1].strip()}
-
-    # if(len(output) > 1 and output_dict['name'] == "U.S."):
-    #     language = {"lang":"English", "bg":"#002868", "fg":"#ff4d4d"}
-    # else:
-    #     language = {"lang":"Chinese", "bg":"#ff4d4d", "fg":"white"}
-    # return language
-detect_keyboard_language()
