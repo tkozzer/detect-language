@@ -17,6 +17,7 @@ class Win(tkinter.Tk):
         self.label = tk.Label(self, width=10, padx=5)
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
+        # TODO add tooltip so users know to double click the X to quit
         self.label_x = tk.Label(self, text="X")
         self.label_x.bind("<Double-Button-1>", lambda e:self.destroy())
         self.label.pack(side="right")
