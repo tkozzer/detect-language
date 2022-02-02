@@ -130,12 +130,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-<<<<<<< HEAD
-=======
-# VS code config files
-.vscode/
-
-#env
-/lang-env
-.lang-env/
->>>>>>> dev
