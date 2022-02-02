@@ -20,10 +20,10 @@ def detect_keyboard_language():
     search_for_keyboard = "egrep -w 'KeyboardLayout Name'"
     search_for_input_mode = "egrep -w 'Input Mode'"
 
-    with open('/Library/Preferences/com.apple.HIToolbox.plist', 'rb') as itl:
-        library = plistlib.load(itl)
+    # with open('/Library/Preferences/com.apple.HIToolbox.plist', 'rb') as itl:
+    #     library = plistlib.load(itl)
 
-    print(json.dumps(library,indent=4))
+    # print(json.dumps(library,indent=4))
 
     # data = os.popen("plutil -convert json -o - ~/Library/Preferences/com.apple.HIToolbox.plist")
     # output = data.read()
