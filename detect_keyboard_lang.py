@@ -18,7 +18,9 @@ class Language:
 
         #TODO check list of AppleLanguages to determine which one the user has available
         
-        with open('language.json', 'r') as lang_json:
+        __location__ = os.getcwd()
+
+        with open(os.path.join(__location__, 'language.json'), 'r') as lang_json:
             self.languages = json.load(lang_json)
 
     def get_current_language(self) -> dict:
@@ -34,7 +36,7 @@ class Language:
 
 
 
-# current = Language()
-# print(current.get_current_language())
+current = Language()
+print(current.load_available_languages())
 
 
