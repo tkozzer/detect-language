@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter
 from turtle import left
-import detect_keyboard_lang as dkl
+from detect_keyboard_lang import Language
 
 class Win(tkinter.Tk):
 
@@ -23,8 +23,6 @@ class Win(tkinter.Tk):
         self.label.pack(side="right")
         self.label_x.pack(side="left")
         self.show_language()
-        
-        self.label_x.update()
 
 
     # These two methods are the brains behind dragging a menuless window
@@ -39,9 +37,10 @@ class Win(tkinter.Tk):
 
     # The will import in detect_keyboard_lang and check which language is used and print it to the window
     def show_language(self):
-        language = dkl.detect_keyboard_language()
-        self.label.config(text=language["lang"],fg=language["fg"], bg=language["bg"])
-        self.label_x.config(fg=language["fg"], bg=language["bg"])
+        self.language = Language()
+        self.language = self.language.current_language
+        self.label.config(text=self.language["language"],fg=self.language["fg"], bg=self.language["bg"])
+        self.label_x.config(fg=self.language["fg"], bg=self.language["bg"])
         self.after(100, self.show_language)
     
     def exit(self):

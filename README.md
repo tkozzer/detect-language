@@ -27,4 +27,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [ ] Be able to customize attributes
 - [ ] Add windows compatibility
 - [ ] Add multiple python version compatibility
-
+- [ ] Add right clickability to customize functionality
+- [ ] Customize menubar
+- [ ] Create unit tests
+- [ ] Create e2e tests 
