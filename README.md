@@ -9,7 +9,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 
 ## Prerequistes 
 
-- python 3.9 or higher
+- python 3.8.1 or higher
 - tkinter
 - macOS 12.1 or higher*
 
@@ -25,4 +25,6 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [X] Add an exit button
 - [ ] Add more languages
 - [ ] Be able to customize attributes
+- [ ] Add windows compatibility
+- [ ] Add multiple python version compatibility
 
