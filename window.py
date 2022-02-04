@@ -45,7 +45,6 @@ class Win(tkinter.Tk):
             self.width = 20
         else:
             self.width = 10
-        print("from show_language(): ", self.current_lang[0])
         self.label.config(text=self.current_lang[1]["language"],fg=self.current_lang[1]["fg"], bg=self.current_lang[1]["bg"], width=self.width)
         self.label_x.config(fg=self.current_lang[1]["fg"], bg=self.current_lang[1]["bg"])
         self.after(100, self.show_language)
