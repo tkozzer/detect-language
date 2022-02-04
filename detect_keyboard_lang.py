@@ -20,30 +20,33 @@ class Language:
        #Only works when called from directory needs to be fixed 
         __location__ = os.path.dirname(os.path.realpath(__file__))
 
-        with open(os.path.join(__location__, 'language.json'), 'r') as lang_json:
-            self.languages = json.load(lang_json)
+        with open(os.path.join(__location__, 'language.json'), 'r') as file:
+            lang_dict = json.load(file)
+            self.languages = lang_dict['languages']
+            self.scim_list = lang_dict['scim_list']
 
     def get_current_language(self) -> tuple:
 
-        # Use the command line to read current keylayout
-        keyboard_layout = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID"
+        # These two commands will be used in conjunction to give us the the current keyboard layout 
+        # *note* There is a bug in macOS that shows the wrong keyboard layout when switching from certain languages to pinyin
+        keyboard_layout_command = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID"
+        input_mode_command = 'defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | egrep "com.apple.inputmethod.SCIM.ITABC"'
+        
+        keyboard_layout = os.popen(keyboard_layout_command)
+        input_mode = os.popen(input_mode_command)
 
-        data = os.popen(keyboard_layout)
-        output = data.read().strip()
-        output = output.split('.')
+        output_keyboard = keyboard_layout.read().strip().split('.')
+        output_input = input_mode.read().strip().replace(' ', '').replace(';', '').replace('"', '').split("=")
 
-        #TODO *fix bug* When a use switches from a non-US keyboard input to Pinyin 'defaults read' doesn't
-        # detect that the keyboard has changed. In order to fix this bug, there will need to be a call to AppleSelectedInputSources
-        # need to look for "Input Mode" = "com.apple.inputmethod.SCIM.ITABC"。 This can also be found under the first index of
-        # the AppleInputSourceHistory
+        if len(output_input) > 1 and output_keyboard[-1] not in self.scim_list:
+            defaults_write = "defaults write ~/Library/Preferences/com.apple.HIToolbox.plist \"AppleCurrentKeyboardLayoutInputSourceID\" 'com.apple.keylayout.PinyinKeyboard'"
+            os.popen(defaults_write)
+            print(f"Executed write to defaults: {defaults_write}")
 
-        #TODO if language isn't supported print to widget "Language Currently Not Supported"
-        print(f"output[-1] not in self.languages.keys(): {output[-1] not in self.languages.keys()}")
-        print(f"output[-1]: {output[-1]}")
-        if output[-1] not in self.languages.keys():
+        if output_keyboard[-1] not in self.languages.keys():
             return ("not_supported", self.languages["not_supported"])
         else:
-            return (output[-1], self.languages[output[-1]])
+            return (output_keyboard[-1], self.languages[output_keyboard[-1]])
 
             
         #TODO if not supported allow user to add it to the language.json

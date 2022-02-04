@@ -1,7 +1,47 @@
 {
-    "US": {"language":"English", "fg": "#ff4d4d", "bg": "#002868", "flag": ""},
-    "Spanish": {"language":"Spanish", "fg":"#FABD00", "bg":"#AD1519", "flag": ""},
-    "German-DIN-2137": {"language":"German", "fg":"#FFCE00", "bg":"black", "flag":""},
-    "PinyinKeyboard": {"language": "Chinese", "fg":"white", "bg":"#ff4d4d", "flag": ""},
-    "not_supported": {"language": "Language Not Supported", "fg":"white", "bg":"black", "flag":""}
+  "languages": {
+    "US": {
+      "language": "English",
+      "fg": "#ff4d4d",
+      "bg": "#002868",
+      "flag": ""
+    },
+    "Spanish": {
+      "language": "Spanish",
+      "fg": "#FABD00",
+      "bg": "#AD1519",
+      "flag": ""
+    },
+    "German-DIN-2137": {
+      "language": "German",
+      "fg": "#FFCE00",
+      "bg": "black",
+      "flag": ""
+    },
+    "German": {
+      "language": "German",
+      "fg": "#FFCE00",
+      "bg": "black",
+      "flag": ""
+    },
+    "Portuguese": {
+      "language": "Portugese",
+      "fg": "#046A38",
+      "bg": "#DA291C",
+      "flag": ""
+    },
+    "PinyinKeyboard": {
+      "language": "Chinese",
+      "fg": "white",
+      "bg": "#ff4d4d",
+      "flag": ""
+    },
+    "not_supported": {
+      "language": "Language Not Supported",
+      "fg": "white",
+      "bg": "black",
+      "flag": ""
+    }
+  },
+  "scim_list":["WubihuaKeyboard", "PinyinKeyboard"]
 }
