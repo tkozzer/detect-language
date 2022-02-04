@@ -17,8 +17,8 @@ class Language:
         #TODO check to make sure a language.json exists
 
         #TODO check list of AppleLanguages to determine which one the user has available
-        
-        __location__ = os.getcwd()
+       #Only works when called from directory needs to be fixed 
+        __location__ = os.path.dirname(os.path.realpath(__file__))
 
         with open(os.path.join(__location__, 'language.json'), 'r') as lang_json:
             self.languages = json.load(lang_json)
@@ -35,8 +35,8 @@ class Language:
         return self.languages[output[-1]]
 
 
-
-current = Language()
-print(current.load_available_languages())
+if __name__ == "__main__":
+    # Used to test
+    pass
 
 
