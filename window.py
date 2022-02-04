@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter
-from turtle import left
+from turtle import left, width
 from detect_keyboard_lang import Language
 
 class Win(tkinter.Tk):
@@ -11,10 +11,13 @@ class Win(tkinter.Tk):
         tk.Tk.__init__(self, master)
         self.overrideredirect(True)
         self.overrideredirect(False)
+        self.width = 10
         self.attributes('-topmost', 'true')
         self._offsetx = 0
         self._offsety = 0
-        self.label = tk.Label(self, width=10, padx=5)
+
+        self.language = Language()
+        self.label = tk.Label(self, width=self.width, padx=5)
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
         # TODO add tooltip so users know to double click the X to quit
@@ -37,10 +40,14 @@ class Win(tkinter.Tk):
 
     # The will import in detect_keyboard_lang and check which language is used and print it to the window
     def show_language(self):
-        self.language = Language()
-        self.language = self.language.current_language
-        self.label.config(text=self.language["language"],fg=self.language["fg"], bg=self.language["bg"])
-        self.label_x.config(fg=self.language["fg"], bg=self.language["bg"])
+        self.current_lang = self.language.get_current_language()
+        if self.current_lang[0] == 'not_supported':
+            self.width = 20
+        else:
+            self.width = 10
+        print("from show_language(): ", self.current_lang[0])
+        self.label.config(text=self.current_lang[1]["language"],fg=self.current_lang[1]["fg"], bg=self.current_lang[1]["bg"], width=self.width)
+        self.label_x.config(fg=self.current_lang[1]["fg"], bg=self.current_lang[1]["bg"])
         self.after(100, self.show_language)
     
     def exit(self):

@@ -23,7 +23,7 @@ class Language:
         with open(os.path.join(__location__, 'language.json'), 'r') as lang_json:
             self.languages = json.load(lang_json)
 
-    def get_current_language(self) -> dict:
+    def get_current_language(self) -> tuple:
 
         # Use the command line to read current keylayout
         keyboard_layout = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID"
@@ -32,11 +32,28 @@ class Language:
         output = data.read().strip()
         output = output.split('.')
 
-        return self.languages[output[-1]]
+        #TODO *fix bug* When a use switches from a non-US keyboard input to Pinyin 'defaults read' doesn't
+        # detect that the keyboard has changed. In order to fix this bug, there will need to be a call to AppleSelectedInputSources
+        # need to look for "Input Mode" = "com.apple.inputmethod.SCIM.ITABC"。 This can also be found under the first index of
+        # the AppleInputSourceHistory
+
+        #TODO if language isn't supported print to widget "Language Currently Not Supported"
+        print(f"output[-1] not in self.languages.keys(): {output[-1] not in self.languages.keys()}")
+        print(f"output[-1]: {output[-1]}")
+        if output[-1] not in self.languages.keys():
+            return ("not_supported", self.languages["not_supported"])
+        else:
+            return (output[-1], self.languages[output[-1]])
+
+            
+        #TODO if not supported allow user to add it to the language.json
+
 
 
 if __name__ == "__main__":
     # Used to test
-    pass
+    # pass
+    lang = Language()
+    print(lang.get_current_language())
 
 
