@@ -9,9 +9,9 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 
 ## Prerequistes 
 
-- python 3.8.1 or higher
-- tkinter 8.6
-- tcl 8.6.8
+- python >= 3.8.1
+- tkinter >= 8.6
+- tcl >= 8.6.8
 - macOS 12.1 or higher*
 
 **note: it most likely works on various versions of python and macOS, but this is what I have used to build and test the code*
