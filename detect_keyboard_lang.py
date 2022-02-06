@@ -2,10 +2,13 @@ import os
 import json
 
 """ 
-Simple method that uses a command line execution to get the value of the keyboard input language. The
-only two langauges that are accepted at the moment are Chinese and English. There is simple logic that checks
-to see if English is detected or nothing is detected. It gets a bit complicated detecting Pinyin (Chinese), so
-it comes up empty. This will suffice for now since this is a tool to help with Duolingo exercises.
+Simple method that uses a command line execution to get the value of the keyboard input language. It checks a list of languages (which can and will grow over time). If 
+the language is in the list, then the language will be returned or if it doesn't exist the user will see message that says that the langauge is not supported. 
+
+The purpose of this program is to help people detemine which keyboard input is current. This is helpful for multiligual people who type in multiple languages and is a useful
+widget for those who do language exercise on apps/websites like duolingo. For example, A user who is doing exercises in Pinyin (Chinese) can easily see when their keyboard 
+input is in English (or any other language) or Pinyin.
+
 """
 class Language:
 

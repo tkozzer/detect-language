@@ -7,7 +7,7 @@ class Win(tkinter.Tk):
 
     def __init__(self, master=None):
         # Create draggable always on top window that has one label that is dynamic based on
-        # which keyboard language is detected. Only languages accepted are "English" and "Chinese"
+        # which keyboard language is detected.
         tk.Tk.__init__(self, master)
         self.overrideredirect(True)
         self.overrideredirect(False)
