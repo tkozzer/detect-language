@@ -1,7 +1,9 @@
 import tkinter as tk
 import tkinter
+from tkinter import tix
 import math
 from detect_keyboard_lang import Language
+from create_tool_tip import CreateToolTip
 
 class Win(tkinter.Tk):
 
@@ -20,14 +22,19 @@ class Win(tkinter.Tk):
         self._offsetx = 0
         self._offsety = 0
 
+
         self.language = Language()
         self.label = tk.Label(self, width=self.width, height=self.height, padx=5, relief='ridge', borderwidth=2, font=(self.font_type, self.font_size))
+        self.label_x = tk.Label(self, text="X", height=self.height, relief='ridge', borderwidth=2, font=(self.font_type, self.font_size))
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
         self.bind('<Double-Button-1>', lambda e:self.increase_size())
-        # TODO add tooltip so users know to double click the X to quit
-        self.label_x = tk.Label(self, text="X", height=self.height, relief='ridge', borderwidth=2, font=(self.font_type, self.font_size))
         self.label_x.bind("<Double-Button-1>", lambda e:self.exit())
+        
+        # TODO Need to do more testing on and parameters of tool tip
+        self.x_tooltip = CreateToolTip(self.label_x, "Double click to exit")
+        self.label_tooltip = CreateToolTip(self.label, "Double click to increase size")
+        
         self.label.pack(side="right")
         self.label_x.pack(side="left")
         self.show_language()

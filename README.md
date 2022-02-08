@@ -32,7 +32,8 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - Be able to customize attributes
   - [X] Double click increases size of widget
   - [X] Double click increases font size
-- [ ] Add tooltip to X button that tell user to double click to exit
+- [X] Add tooltip to X button that tell user to double click to exit
+- [X] Add tooltip to label that tell user to double click to increase size
 - [ ] Add right clickability to customize functionality
 - [ ] Customize menubar
 - [ ] Add multiple python version compatibility
@@ -40,3 +41,9 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [ ] Add windows compatibility
 - [ ] Create unit tests
 - [ ] Create e2e tests
+
+## Wish List
+
+- [ ] Add a timer
+- [ ] Allow user to enter words to study later
+- [ ] Add the vocal words to a database
