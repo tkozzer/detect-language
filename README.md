@@ -29,11 +29,14 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
   - [X] German
   - [X] Portugese
   - [ ] French
-- [ ] Be able to customize attributes
-- [ ] Add windows compatibility
-- [ ] Add multiple python version compatibility
+- Be able to customize attributes
+  - [X] Double click increases size of widget
+  - [X] Double click increases font size
+- [ ] Add tooltip to X button that tell user to double click to exit
 - [ ] Add right clickability to customize functionality
 - [ ] Customize menubar
+- [ ] Add multiple python version compatibility
 - [ ] Use Py2App to create a standalone app
+- [ ] Add windows compatibility
 - [ ] Create unit tests
 - [ ] Create e2e tests

@@ -29,6 +29,7 @@ class Language:
             self.scim_list = lang_dict['scim_list']
 
     def get_current_language(self) -> tuple:
+        #TODO check to make sure that the file exists on the computer --> ~/Library/Preferences/com.apple.HIToolbox.plist
 
         # These two commands will be used in conjunction to give us the the current keyboard layout 
         # *note* There is a bug in macOS that shows the wrong keyboard layout when switching from certain languages to pinyin

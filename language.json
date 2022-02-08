@@ -37,7 +37,7 @@
       "flag": ""
     },
     "not_supported": {
-      "language": "Language Not Supported",
+      "language": "Language Not\n Supported",
       "fg": "white",
       "bg": "black",
       "flag": ""
