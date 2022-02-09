@@ -1,11 +1,9 @@
 import tkinter as tk
-import tkinter
-from tkinter import tix
 import math
 from detect_keyboard_lang import Language
-from create_tool_tip import CreateToolTip
+from tool_tip import Tooltip
 
-class Win(tkinter.Tk):
+class Win(tk.Tk):
 
     def __init__(self, master=None):
         # Create draggable always on top window that has one label that is dynamic based on
@@ -28,12 +26,15 @@ class Win(tkinter.Tk):
         self.label_x = tk.Label(self, text="X", height=self.height, relief='ridge', borderwidth=2, font=(self.font_type, self.font_size))
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
-        self.bind('<Double-Button-1>', lambda e:self.increase_size())
+
+        self.label.bind('<Double-Button-1>', lambda e:self.increase_size())
+        self.label.bind('<Button-2>', self.right_click)
         self.label_x.bind("<Double-Button-1>", lambda e:self.exit())
         
         # TODO Need to do more testing on and parameters of tool tip
-        self.x_tooltip = CreateToolTip(self.label_x, "Double click to exit")
-        self.label_tooltip = CreateToolTip(self.label, "Double click to increase size")
+        # TODO Create a smoother fading of tool tip.
+        self.x_tooltip = Tooltip(self.label_x, text="Double click to exit", wraplength=200)
+        self.label_tooltip = Tooltip(self.label, text="Double click to increase size", wraplength=200)
         
         self.label.pack(side="right")
         self.label_x.pack(side="left")
@@ -72,6 +73,12 @@ class Win(tkinter.Tk):
             self.font_size = math.floor(self.font_size * 2)
         self.label.config(height=self.height, width=self.width, font=(self.font_type, self.font_size))
         self.label_x.config(height=self.height, font=(self.font_type, self.font_size))
+
+    def right_click(self, event):
+        #TODO create a right click menu that lets the user input new languages, check current languages and other options
+        print("Right click")
+        print(event)
+
 
 
     def exit(self):
