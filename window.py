@@ -1,6 +1,7 @@
 import tkinter as tk
 import math
 from detect_keyboard_lang import Language
+from top_menu import TopMenu
 from tool_tip import Tooltip
 
 class Win(tk.Tk):
@@ -35,6 +36,9 @@ class Win(tk.Tk):
         # TODO Create a smoother fading of tool tip.
         self.x_tooltip = Tooltip(self.label_x, text="Double click to exit", wraplength=200)
         self.label_tooltip = Tooltip(self.label, text="Double click to increase size", wraplength=200)
+
+        # TODO add more menu bar items
+        self.menubar = TopMenu(self)
         
         self.label.pack(side="right")
         self.label_x.pack(side="left")
