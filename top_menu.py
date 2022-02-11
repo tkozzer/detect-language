@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 class TopMenu(tk.Frame):
 
     def __init__(self, win) -> None:

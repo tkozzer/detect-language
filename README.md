@@ -36,8 +36,10 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [X] Add tooltip to X button that tell user to double click to exit
 - [X] Add tooltip to label that tell user to double click to increase size
 - [X] Add right clickability to customize functionality
-  - [ ] Add a right click menu with various options e.g. add/delete input languages
-- [ ] Customize menubar
+  - [X] Add a right click menu with various options e.g. add/delete input languages
+    - [ ] Add functionality to right click options
+- [X] Add menubar class
+  - [ ] Customize the menubar class with various options
 - [ ] Add multiple python version compatibility
 - [ ] Use Py2App to create a standalone app
 - [ ] Add windows compatibility

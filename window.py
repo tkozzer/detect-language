@@ -1,6 +1,7 @@
 import tkinter as tk
 import math
 from detect_keyboard_lang import Language
+from right_click_menu import RightClick
 from top_menu import TopMenu
 from tool_tip import Tooltip
 
@@ -29,6 +30,7 @@ class Win(tk.Tk):
         self.bind('<Button-1>', self.clickwin)
 
         self.label.bind('<Double-Button-1>', lambda e:self.increase_size())
+        # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
         self.label.bind('<Button-2>', self.right_click)
         self.label_x.bind("<Double-Button-1>", lambda e:self.exit())
         
@@ -43,7 +45,6 @@ class Win(tk.Tk):
         self.label.pack(side="right")
         self.label_x.pack(side="left")
         self.show_language()
-
 
     # These two methods are the brains behind dragging a menuless window
     def dragwin(self, event):
@@ -64,7 +65,7 @@ class Win(tk.Tk):
         self.after(100, self.show_language)
     
     def increase_size(self):
-        #TODO after the user double clicks the widgit it will increase in size including height, width, and font size
+        #TODO smooth out the logic of the click
         self.click_count += 1
         if(self.click_count == 3):
             self.width = 10
@@ -80,8 +81,7 @@ class Win(tk.Tk):
 
     def right_click(self, event):
         #TODO create a right click menu that lets the user input new languages, check current languages and other options
-        print("Right click")
-        print(event)
+        self.right_click = RightClick(self, event)
 
 
 
