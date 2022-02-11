@@ -22,6 +22,7 @@ class Win(tk.Tk):
         self._offsetx = 0
         self._offsety = 0
 
+        self.eval('tk::PlaceWindow . center') # Places window in the middle of screen
 
         self.language = Language()
         self.label = tk.Label(self, width=self.width, height=self.height, padx=5, relief='ridge', borderwidth=2, font=(self.font_type, self.font_size))

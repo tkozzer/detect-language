@@ -40,6 +40,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
     - [ ] Add functionality to right click options
 - [X] Add menubar class
   - [ ] Customize the menubar class with various options
+- [ ] Add rounded corners to widget for more modern look
 - [ ] Add multiple python version compatibility
 - [ ] Use Py2App to create a standalone app
 - [ ] Add windows compatibility
