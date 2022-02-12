@@ -23,7 +23,7 @@ class Language:
        #Only works when called from directory needs to be fixed 
         __location__ = os.path.dirname(os.path.realpath(__file__))
 
-        with open(os.path.join(__location__, 'language.json'), 'r') as file:
+        with open(os.path.join(__location__, 'config.json'), 'r') as file:
             lang_dict = json.load(file)
             self.languages = lang_dict['languages']
             self.scim_list = lang_dict['scim_list']
