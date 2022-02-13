@@ -19,6 +19,7 @@ class Win(tk.Tk):
         self.overrideredirect(False)
         self.attributes('-topmost', 'true')
         self.app_config = self.get_config()
+        self.click_count = 0
 
         # Places window in the middle of screen
         self.eval('tk::PlaceWindow . center')
@@ -73,12 +74,12 @@ class Win(tk.Tk):
 
     def increase_size(self, event):
         # TODO smooth out the logic of the click
-        self.app_config['click_count'] += 1
-        if(self.app_config['click_count'] == 3):
+        self.click_count += 1
+        if(self.click_count == 3):
             self.app_config['width'] = 10
             self.app_config['height'] = 2
             self.app_config['font_size'] = 15
-            self.app_config['click_count'] = 0
+            self.click_count = 0
         else:
             self.app_config['width'] = math.floor(self.app_config['width'] * 1.50)
             self.app_config['height'] = math.floor(self.app_config['height'] * 1.50)

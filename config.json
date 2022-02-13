@@ -45,7 +45,6 @@
   },
   "scim_list":["WubihuaKeyboard", "PinyinKeyboard"],
   "config": {
-    "click_count": 0,
     "width": 10,
     "height": 2,
     "font_type": "Helvetica",
