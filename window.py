@@ -2,6 +2,7 @@ import os
 import json
 import tkinter as tk
 import math
+import time
 from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
@@ -75,7 +76,7 @@ class Win(tk.Tk):
     def increase_size(self, event):
         # TODO smooth out the logic of the click
         self.click_count += 1
-        if(self.click_count == 3):
+        if(self.click_count == 2):
             self.app_config['width'] = 10
             self.app_config['height'] = 2
             self.app_config['font_size'] = 15
@@ -84,6 +85,19 @@ class Win(tk.Tk):
             self.app_config['width'] = math.floor(self.app_config['width'] * 1.50)
             self.app_config['height'] = math.floor(self.app_config['height'] * 1.50)
             self.app_config['font_size'] = math.floor(self.app_config['font_size'] * 2)
+
+        # TODO priliminary window increase size animation. Needs work
+        print(self.label['width'])
+        print(self.app_config['width'])
+        current_width = self.label['width']
+        next_width = self.app_config['width']
+        stepper = 1 if current_width < next_width else -1
+        for x in range(self.label['width'], self.app_config['width'], stepper):
+            print(f'x: {x}')
+            self.label.config(width=x)
+            time.sleep(.01)
+            self.update()
+
 
         self.label.config(height=self.app_config['height'], width=self.app_config['width'],
                           font=(self.app_config['font_type'], self.app_config['font_size']))
