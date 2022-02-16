@@ -33,14 +33,15 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - Be able to customize attributes
   - [X] Double click increases size of widget
   - [X] Double click increases font size
-- [X] Add tooltip to X button that tell user to double click to exit
+~~- [X] Add tooltip to X button that tell user to double click to exit~~
 - [X] Add tooltip to label that tell user to double click to increase size
 - [X] Add right clickability to customize functionality
   - [X] Add a right click menu with various options e.g. add/delete input languages
+    - [X] Added quit application to right click menu
     - [ ] Add functionality to right click options
 - [X] Add menubar class
   - [ ] Customize the menubar class with various options
-- [ ] Add rounded corners to widget for more modern look
+- [X] Add rounded corners to widget for more modern look
 - [X] Add window resizing animation
   - [ ] Make animation increase/decrease from middle out
 - [ ] Add multiple python version compatibility
