@@ -1,4 +1,5 @@
 import tkinter as tk
+import sys
 
 class RightClick(tk.Frame):
 
@@ -9,6 +10,7 @@ class RightClick(tk.Frame):
         self.right_click_menu.add_command(label="Check for Updates", command=self.check_updates)
         self.right_click_menu.add_separator()
         self.right_click_menu.add_command(label="Customize...", command=self.customize)
+        self.right_click_menu.add_command(label="Quit", command=self.exit)
 
         self.popup(event)
 
@@ -16,7 +18,9 @@ class RightClick(tk.Frame):
         try:
             self.right_click_menu.post(event.x_root, event.y_root)
         finally:
-            self.right_click_menu.grab_release()
+            # TODO figure out what grab_release() does
+            # self.right_click_menu.grab_release()
+            pass
 
     def about(self):
         pass
@@ -27,3 +31,8 @@ class RightClick(tk.Frame):
     def customize(self):
         pass
 
+    def exit(self):
+        try:
+            self.win.destroy()
+        except SystemExit:
+            sys.exit()

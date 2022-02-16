@@ -41,6 +41,8 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [X] Add menubar class
   - [ ] Customize the menubar class with various options
 - [ ] Add rounded corners to widget for more modern look
+- [X] Add window resizing animation
+  - [ ] Make animation increase/decrease from middle out
 - [ ] Add multiple python version compatibility
 - [ ] Use Py2App to create a standalone app
 - [ ] Add windows compatibility
