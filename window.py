@@ -86,23 +86,21 @@ class Win(tk.Tk):
             self.app_config['height'] = math.floor(self.app_config['height'] * 1.50)
             self.app_config['font_size'] = math.floor(self.app_config['font_size'] * 2)
 
-        # TODO priliminary window increase size animation. Needs work
-        print(self.label['width'])
-        print(self.app_config['width'])
+        # TODO preliminary window increase size animation. Works fairly decent, but could use a bit more work. Sufficient for now
         current_width = self.label['width']
         next_width = self.app_config['width']
+        
         stepper = 1 if current_width < next_width else -1
+
         for x in range(self.label['width'], self.app_config['width'], stepper):
-            print(f'x: {x}')
-            self.label.config(width=x)
+            self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config
+            ['font_size']))
+            self.label_x.config(height=self.app_config['height'],
+                          font=(self.app_config['font_type'], self.app_config['font_size']))
+            # TODO Make it so when the window increases, it increases from the middles out
+            # self.geometry(f"+{self.winfo_rootx() - self.label.winfo_rootx()}+{self.winfo_height() - self.label.winfo_rooty()}")
             time.sleep(.01)
             self.update()
-
-
-        self.label.config(height=self.app_config['height'], width=self.app_config['width'],
-                          font=(self.app_config['font_type'], self.app_config['font_size']))
-        self.label_x.config(height=self.app_config['height'],
-                          font=(self.app_config['font_type'], self.app_config['font_size']))
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
@@ -112,7 +110,6 @@ class Win(tk.Tk):
         # TODO does config json files exist if so open file and get config variables
 
         __location__ = os.path.dirname(os.path.realpath(__file__))
-        print(__location__)
         with open(os.path.join(__location__, 'config.json'), 'r') as file:
             config_dict = json.load(file)
             self.app_config = config_dict['config']
