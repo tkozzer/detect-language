@@ -25,27 +25,28 @@ class Win(tk.Tk):
         self.config(background='systemTransparent')
         # Places window in the middle of screen
         self.eval('tk::PlaceWindow . center')
-        
+
         self.app_config = self.get_config()
         self.x = 200
-        self.y = 50
+        self.y = 70
         self.radius = 20
         self.geometry(f'{self.x}x{self.y}')
         self.click_count = 0
 
-        self.canvas = tk.Canvas(self, bg="systemTransparent", highlightthickness=0)
+        self.canvas = tk.Canvas(
+            self, bg="systemTransparent", highlightthickness=0)
         self.canvas.pack(fill=tk.BOTH, expand=1)
 
         self.language = Language()
         self.label = tk.Label(self.canvas, width=self.app_config['width'], height=self.app_config['height'], padx=self.app_config['padx'],
-                               borderwidth=self.app_config['borderwidth'], font=(self.app_config['font_type'], self.app_config['font_size']))
-        
+                              borderwidth=self.app_config['borderwidth'], font=(self.app_config['font_type'], self.app_config['font_size']))
+
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
 
-        self.label.bind('<Double-Button-1>', self.increase_size)
+        self.bind('<Double-Button-1>', self.increase_size)
         # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
-        self.label.bind('<Button-2>', self.right_click)
+        self.bind('<Button-2>', self.right_click)
 
         # TODO Need to do more testing on and parameters of tool tip
         # TODO Create a smoother fading of tool tip.
@@ -58,28 +59,28 @@ class Win(tk.Tk):
         self.label.pack(padx=5, pady=5)
         self.show_language()
 
-    def round_rectangle(self, x1, y1, x2, y2, radius=25, **kwargs): # Creating a rounded rectangle
-        
+    def round_rectangle(self, x1, y1, x2, y2, **kwargs):  # Creating a rounded rectangle
+        radius = self.radius
         points = [x1+radius, y1,
-                x1+radius, y1,
-                x2-radius, y1,
-                x2-radius, y1,
-                x2, y1,
-                x2, y1+radius,
-                x2, y1+radius,
-                x2, y2-radius,
-                x2, y2-radius,
-                x2, y2,
-                x2-radius, y2,
-                x2-radius, y2,
-                x1+radius, y2,
-                x1+radius, y2,
-                x1, y2,
-                x1, y2-radius,
-                x1, y2-radius,
-                x1, y1+radius,
-                x1, y1+radius,
-                x1, y1]
+                  x1+radius, y1,
+                  x2-radius, y1,
+                  x2-radius, y1,
+                  x2, y1,
+                  x2, y1+radius,
+                  x2, y1+radius,
+                  x2, y2-radius,
+                  x2, y2-radius,
+                  x2, y2,
+                  x2-radius, y2,
+                  x2-radius, y2,
+                  x1+radius, y2,
+                  x1+radius, y2,
+                  x1, y2,
+                  x1, y2-radius,
+                  x1, y2-radius,
+                  x1, y1+radius,
+                  x1, y1+radius,
+                  x1, y1]
 
         return self.canvas.create_polygon(points, **kwargs, smooth=True)
 
@@ -98,8 +99,8 @@ class Win(tk.Tk):
         self.current_lang = self.language.get_current_language()
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.app_config['width'])
-        self.config(bg=self.current_lang[1]["bg"])
-        self.round_rectangle(0, 0, self.x, self.y, radius=self.radius, fill=self.current_lang[1]['bg'])
+        self.round_rectangle(0, 0, self.x, self.y,
+                             fill=self.current_lang[1]['bg'])
         self.after(100, self.show_language)
 
     def increase_size(self, event):
@@ -108,24 +109,33 @@ class Win(tk.Tk):
         if(self.click_count == 2):
             self.app_config['width'] = 10
             self.app_config['height'] = 2
-            self.app_config['font_size'] = 15
+            self.app_config['font_size'] = 40
             self.click_count = 0
+            self.x = 200
+            self.y = 70
         else:
-            self.app_config['width'] = math.floor(self.app_config['width'] * 1.50)
-            self.app_config['height'] = math.floor(self.app_config['height'] * 1.50)
-            self.app_config['font_size'] = math.floor(self.app_config['font_size'] * 2)
+            self.app_config['width'] = math.floor(
+                self.app_config['width'] * 1.50)
+            self.app_config['height'] = math.floor(
+                self.app_config['height'] * 1.50)
+            self.app_config['font_size'] = math.floor(
+                self.app_config['font_size'] * 1.3)
+            self.x = self.x + 100
+            self.y = self.y + 50
 
         # TODO preliminary window increase size animation. Works fairly decent, but could use a bit more work. Sufficient for now
         current_width = self.label['width']
         next_width = self.app_config['width']
-        
+
         stepper = 1 if current_width < next_width else -1
 
         for x in range(self.label['width'], self.app_config['width'], stepper):
             self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config
-            ['font_size']))
+                                                                               ['font_size']))
             # TODO Make it so when the window increases, it increases from the middles out
-            # self.geometry(f"+{self.winfo_rootx() - self.label.winfo_rootx()}+{self.winfo_height() - self.label.winfo_rooty()}")
+            self.geometry(f'{self.x}x{self.y}')
+            # TODO still needs work. There is a bug for when a user increases the widget and then decreases the widget and switches languages. The previous languages colors still show up in the corners
+            self.round_rectangle(0, 0, self.x, self.y, fill=self.current_lang[1]['bg'])
             time.sleep(.01)
             self.update()
 
