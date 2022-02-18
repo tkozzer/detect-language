@@ -32,6 +32,7 @@ class Win(tk.Tk):
         self.radius = 20
         self.geometry(f'{self.x}x{self.y}')
         self.click_count = 0
+        self.first_time = True
 
         self.canvas = tk.Canvas(
             self, bg="systemTransparent", highlightthickness=0)
@@ -82,7 +83,34 @@ class Win(tk.Tk):
                   x1, y1+radius,
                   x1, y1]
 
+        
         return self.canvas.create_polygon(points, **kwargs, smooth=True)
+
+    def update_rect_coords(self, x1, y1, x2, y2, **kwargs):  # Creating a rounded rectangle
+        radius = self.radius
+        points = [x1+radius, y1,
+                    x1+radius, y1,
+                    x2-radius, y1,
+                    x2-radius, y1,
+                    x2, y1,
+                    x2, y1+radius,
+                    x2, y1+radius,
+                    x2, y2-radius,
+                    x2, y2-radius,
+                    x2, y2,
+                    x2-radius, y2,
+                    x2-radius, y2,
+                    x1+radius, y2,
+                    x1+radius, y2,
+                    x1, y2,
+                    x1, y2-radius,
+                    x1, y2-radius,
+                    x1, y1+radius,
+                    x1, y1+radius,
+                    x1, y1]
+
+        
+        return self.canvas.coords(self.rounded, points)
 
     # These two methods are the brains behind dragging a menuless window
     def dragwin(self, event):
@@ -99,8 +127,13 @@ class Win(tk.Tk):
         self.current_lang = self.language.get_current_language()
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.app_config['width'])
-        self.round_rectangle(0, 0, self.x, self.y,
-                             fill=self.current_lang[1]['bg'])
+        if self.first_time:
+            self.rounded = self.round_rectangle(0, 0, self.x, self.y, fill=self.current_lang[1]['bg'])
+            self.geometry(f'{self.x}x{self.y}')
+            self.first_time = False
+        else:
+            self.update_rect_coords(0, 0, self.x, self.y)
+            self.geometry(f'{self.x}x{self.y}')
         self.after(100, self.show_language)
 
     def increase_size(self, event):
@@ -128,14 +161,13 @@ class Win(tk.Tk):
         next_width = self.app_config['width']
 
         stepper = 1 if current_width < next_width else -1
-
         for x in range(self.label['width'], self.app_config['width'], stepper):
             self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config
                                                                                ['font_size']))
             # TODO Make it so when the window increases, it increases from the middles out
+            self.update_rect_coords(0, 0, self.x, self.y)
             self.geometry(f'{self.x}x{self.y}')
-            # TODO still needs work. There is a bug for when a user increases the widget and then decreases the widget and switches languages. The previous languages colors still show up in the corners
-            self.round_rectangle(0, 0, self.x, self.y, fill=self.current_lang[1]['bg'])
+    
             time.sleep(.01)
             self.update()
 
