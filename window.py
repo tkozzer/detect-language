@@ -133,6 +133,7 @@ class Win(tk.Tk):
             self.first_time = False
         else:
             self.update_rect_coords(0, 0, self.x, self.y)
+            self.canvas.itemconfig(self.rounded, fill=self.current_lang[1]['bg'])
             self.geometry(f'{self.x}x{self.y}')
         self.after(100, self.show_language)
 
