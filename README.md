@@ -32,7 +32,6 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - Be able to customize attributes
   - [X] Double click increases size of widget
   - [X] Double click increases font size
-~~- [X] Add tooltip to X button that tell user to double click to exit~~
 - [X] Add tooltip to label that tell user to double click to increase size
 - [X] Add right clickability to customize functionality
   - [X] Add a right click menu with various options e.g. add/delete input languages
