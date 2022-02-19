@@ -5,6 +5,7 @@ import math
 import time
 
 from tkinter.constants import BOTH
+from turtle import window_height
 from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
@@ -23,19 +24,15 @@ class Win(tk.Tk):
         self.attributes('-topmost', 'true')
         self.attributes('-transparent', True)
         self.config(background='systemTransparent')
-        # Places window in the middle of screen
-        self.eval('tk::PlaceWindow . center')
 
         self.app_config = self.get_config()
-        self.x = 200
-        self.y = 70
         self.radius = 20
-        self.geometry(f'{self.x}x{self.y}')
         self.click_count = 0
         self.first_time = True
+        # TODO see initialize_window() method for TODO details
+        self.initialize_window()
 
-        self.canvas = tk.Canvas(
-            self, bg="systemTransparent", highlightthickness=0)
+        self.canvas = tk.Canvas(self, bg="systemTransparent", highlightthickness=0)
         self.canvas.pack(fill=tk.BOTH, expand=1)
 
         self.language = Language()
@@ -59,6 +56,23 @@ class Win(tk.Tk):
 
         self.label.pack(padx=5, pady=5)
         self.show_language()
+
+    def initialize_window(self):
+        # TODO turn this into an initialize window starting position
+        # We want the user to be able to have the window appear on the their screen in the correct location.
+        # The x and y coordinates will be stored in the config.json file and user till be able to automatically set those
+        # through the right click options.
+        self.update_idletasks()
+        self.width = 200
+        self.height = 70
+        self.screen_width = self.winfo_screenwidth()
+        self.screen_height = self.winfo_screenheight()
+
+        self.x = int((self.screen_width/2) - (self.width/2))
+        self.y = int((self.screen_height/2) - (self.height/2))
+
+        self.geometry(f'{self.width}x{self.height}+{self.x}+{self.y}')
+
 
     def round_rectangle(self, x1, y1, x2, y2, **kwargs):  # Creating a rounded rectangle
         radius = self.radius
@@ -128,25 +142,27 @@ class Win(tk.Tk):
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.app_config['width'])
         if self.first_time:
-            self.rounded = self.round_rectangle(0, 0, self.x, self.y, fill=self.current_lang[1]['bg'])
-            self.geometry(f'{self.x}x{self.y}')
+            self.rounded = self.round_rectangle(0, 0, self.width, self.height, fill=self.current_lang[1]['bg'])
+            self.geometry(f'{self.width}x{self.height}')
             self.first_time = False
         else:
-            self.update_rect_coords(0, 0, self.x, self.y)
+            self.update_rect_coords(0, 0, self.width, self.height)
             self.canvas.itemconfig(self.rounded, fill=self.current_lang[1]['bg'])
-            self.geometry(f'{self.x}x{self.y}')
+            self.geometry(f'{self.width}x{self.height}')
         self.after(100, self.show_language)
 
     def increase_size(self, event):
         # TODO smooth out the logic of the click
+        self.update_idletasks()
         self.click_count += 1
-        if(self.click_count == 2):
+        if(self.click_count % 2 == 0):
             self.app_config['width'] = 10
             self.app_config['height'] = 2
             self.app_config['font_size'] = 40
-            self.click_count = 0
-            self.x = 200
-            self.y = 70
+            self.width = 200
+            self.height = 70
+            self.x = self.winfo_rootx() + 50
+            self.y = self.winfo_rooty() + 25
         else:
             self.app_config['width'] = math.floor(
                 self.app_config['width'] * 1.50)
@@ -154,8 +170,10 @@ class Win(tk.Tk):
                 self.app_config['height'] * 1.50)
             self.app_config['font_size'] = math.floor(
                 self.app_config['font_size'] * 1.3)
-            self.x = self.x + 100
-            self.y = self.y + 50
+            self.width = self.width + 100
+            self.height = self.height + 50
+            self.x = self.winfo_rootx() - 50
+            self.y = self.winfo_rooty() - 25
 
         # TODO preliminary window increase size animation. Works fairly decent, but could use a bit more work. Sufficient for now
         current_width = self.label['width']
@@ -163,11 +181,11 @@ class Win(tk.Tk):
 
         stepper = 1 if current_width < next_width else -1
         for x in range(self.label['width'], self.app_config['width'], stepper):
-            self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config
-                                                                               ['font_size']))
+            self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config['font_size']))
+            self.update_rect_coords(0, 0, self.width, self.height)
             # TODO Make it so when the window increases, it increases from the middles out
-            self.update_rect_coords(0, 0, self.x, self.y)
-            self.geometry(f'{self.x}x{self.y}')
+            self.geometry(f'{self.width}x{self.height}')
+            self.geometry(f'+{self.x}+{self.y}')
     
             time.sleep(.01)
             self.update()
