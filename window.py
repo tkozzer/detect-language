@@ -27,9 +27,6 @@ class Win(tk.Tk):
 
         self.app_config = self.get_config()
         self.initialize_variables()
-        # self.radius = 20
-        # self.click_count = 0
-        # self.first_time = True
         # TODO see initialize_window() method for TODO details
         self.initialize_window()
 
@@ -134,7 +131,7 @@ class Win(tk.Tk):
     def dragwin(self, event):
         x = self.winfo_pointerx() - self._offsetx
         y = self.winfo_pointery() - self._offsety
-        self.geometry('+{x}+{y}'.format(x=x, y=y))
+        self.geometry(f'+{x}+{y}')
 
     def clickwin(self, event):
         self._offsetx = event.x
@@ -146,13 +143,12 @@ class Win(tk.Tk):
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width)
         if self.is_first_time:
-            self.rounded = self.round_rectangle(0, 0, self.width, self.height, fill=self.current_lang[1]['bg'])
-            self.geometry(f'{self.width}x{self.height}')
-            self.first_time = False
+            self.rounded = self.round_rectangle(0, 0, self.win_width, self.win_height, fill=self.current_lang[1]['bg'])
+            self.is_first_time = False
         else:
-            self.update_rect_coords(0, 0, self.width, self.height)
+            self.update_rect_coords(0, 0, self.win_width, self.win_height)
             self.canvas.itemconfig(self.rounded, fill=self.current_lang[1]['bg'])
-            self.geometry(f'{self.width}x{self.height}')
+        self.geometry(f'{self.win_width}x{self.win_height}')
         self.after(100, self.show_language)
 
     def increase_size(self, event):
@@ -168,12 +164,9 @@ class Win(tk.Tk):
             self.win_x = self.winfo_rootx() + 50
             self.win_y = self.winfo_rooty() + 25
         else:
-            self.label_width = math.floor(
-                self.label_width * 1.50)
-            self.label_height = math.floor(
-                self.label_height * 1.50)
-            self.label_font_size = math.floor(
-                self.label_font_size * 1.3)
+            self.label_width = math.floor(self.label_width * 1.50)
+            self.label_height = math.floor(self.label_height * 1.50)
+            self.label_font_size = math.floor(self.label_font_size * 1.3)
             self.win_width = self.win_width + 100
             self.win_height = self.win_height + 50
             self.win_x  = self.winfo_rootx() - 50
@@ -186,8 +179,6 @@ class Win(tk.Tk):
         stepper = 1 if current_width < next_width else -1
         for x in range(self.label['width'], self.label_width, stepper):
             self.label.config(width=x, height=self.label_height, font=(self.label_font_type, self.label_font_size))
-            print(self.win_width)
-            print(self.win_height)
             self.update_rect_coords(0, 0, self.win_width, self.win_height)
             # TODO Make it so when the window increases, it increases from the middles out
             self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
@@ -219,7 +210,7 @@ class Win(tk.Tk):
         self.win_x = self.app_config['win']['x']
         self.win_y = self.app_config['win']['y']
         
-        self.radius = 25
+        self.radius = 20
         self.click_count = 0
         self.is_first_time = True
 

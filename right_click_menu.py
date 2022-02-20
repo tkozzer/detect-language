@@ -10,6 +10,7 @@ class RightClick(tk.Frame):
         self.right_click_menu.add_command(label="Check for Updates", command=self.check_updates)
         self.right_click_menu.add_separator()
         self.right_click_menu.add_command(label="Customize...", command=self.customize)
+        self.right_click_menu.add_command(label="Set Position", command=self.set_position)
         self.right_click_menu.add_command(label="Quit", command=self.exit)
 
         self.popup(event)
@@ -30,6 +31,9 @@ class RightClick(tk.Frame):
 
     def customize(self):
         pass
+
+    def set_position(self):
+        print("set position")
 
     def exit(self):
         try:
