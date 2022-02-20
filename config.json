@@ -43,14 +43,19 @@
       "flag": ""
     }
   },
-  "scim_list":["WubihuaKeyboard", "PinyinKeyboard"],
+  "scim_list": ["WubihuaKeyboard", "PinyinKeyboard"],
   "config": {
-    "width": 10,
-    "height": 2,
-    "font_type": "Helvetica",
-    "font_size": 40,
-    "padx": 5,
-    "borderwidth": 2,
-    "relief": "ridge"
+    "label": {
+      "width": 10,
+      "height": 2,
+      "font_type": "Helvetica",
+      "font_size": 40
+    },
+    "win": {
+      "width": 200,
+      "height": 70,
+      "x": 0,
+      "y": 0
+    }
   }
 }

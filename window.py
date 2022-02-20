@@ -26,9 +26,10 @@ class Win(tk.Tk):
         self.config(background='systemTransparent')
 
         self.app_config = self.get_config()
-        self.radius = 20
-        self.click_count = 0
-        self.first_time = True
+        self.initialize_variables()
+        # self.radius = 20
+        # self.click_count = 0
+        # self.first_time = True
         # TODO see initialize_window() method for TODO details
         self.initialize_window()
 
@@ -36,8 +37,7 @@ class Win(tk.Tk):
         self.canvas.pack(fill=tk.BOTH, expand=1)
 
         self.language = Language()
-        self.label = tk.Label(self.canvas, width=self.app_config['width'], height=self.app_config['height'], padx=self.app_config['padx'],
-                              borderwidth=self.app_config['borderwidth'], font=(self.app_config['font_type'], self.app_config['font_size']))
+        self.label = tk.Label(self.canvas, width=self.label_width, height=self.label_height, font=(self.label_font_type, self.label_font_size))
 
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
@@ -48,8 +48,7 @@ class Win(tk.Tk):
 
         # TODO Need to do more testing on and parameters of tool tip
         # TODO Create a smoother fading of tool tip.
-        self.label_tooltip = Tooltip(
-            self.label, text="Double click to increase size", wraplength=200)
+        self.label_tooltip = Tooltip(self.label, text="Double click to increase size", wraplength=200)
 
         # TODO add more menu bar items
         self.menubar = TopMenu(self)
@@ -63,6 +62,11 @@ class Win(tk.Tk):
         # The x and y coordinates will be stored in the config.json file and user till be able to automatically set those
         # through the right click options.
         self.update_idletasks()
+
+        # if width, height, x, y exist do this
+
+        # else do that
+
         self.width = 200
         self.height = 70
         self.screen_width = self.winfo_screenwidth()
@@ -140,8 +144,8 @@ class Win(tk.Tk):
     def show_language(self):
         self.current_lang = self.language.get_current_language()
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
-                          ["fg"], bg=self.current_lang[1]["bg"], width=self.app_config['width'])
-        if self.first_time:
+                          ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width)
+        if self.is_first_time:
             self.rounded = self.round_rectangle(0, 0, self.width, self.height, fill=self.current_lang[1]['bg'])
             self.geometry(f'{self.width}x{self.height}')
             self.first_time = False
@@ -156,36 +160,37 @@ class Win(tk.Tk):
         self.update_idletasks()
         self.click_count += 1
         if(self.click_count % 2 == 0):
-            self.app_config['width'] = 10
-            self.app_config['height'] = 2
-            self.app_config['font_size'] = 40
-            self.width = 200
-            self.height = 70
-            self.x = self.winfo_rootx() + 50
-            self.y = self.winfo_rooty() + 25
+            self.label_width = 10
+            self.label_height = 2
+            self.label_font_size = 40
+            self.win_width = 200
+            self.win_height = 70
+            self.win_x = self.winfo_rootx() + 50
+            self.win_y = self.winfo_rooty() + 25
         else:
-            self.app_config['width'] = math.floor(
-                self.app_config['width'] * 1.50)
-            self.app_config['height'] = math.floor(
-                self.app_config['height'] * 1.50)
-            self.app_config['font_size'] = math.floor(
-                self.app_config['font_size'] * 1.3)
-            self.width = self.width + 100
-            self.height = self.height + 50
-            self.x = self.winfo_rootx() - 50
-            self.y = self.winfo_rooty() - 25
+            self.label_width = math.floor(
+                self.label_width * 1.50)
+            self.label_height = math.floor(
+                self.label_height * 1.50)
+            self.label_font_size = math.floor(
+                self.label_font_size * 1.3)
+            self.win_width = self.win_width + 100
+            self.win_height = self.win_height + 50
+            self.win_x  = self.winfo_rootx() - 50
+            self.win_y = self.winfo_rooty() - 25
 
         # TODO preliminary window increase size animation. Works fairly decent, but could use a bit more work. Sufficient for now
         current_width = self.label['width']
-        next_width = self.app_config['width']
+        next_width = self.label_width
 
         stepper = 1 if current_width < next_width else -1
-        for x in range(self.label['width'], self.app_config['width'], stepper):
-            self.label.config(width=x, height=self.app_config['height'], font=(self.app_config['font_type'], self.app_config['font_size']))
-            self.update_rect_coords(0, 0, self.width, self.height)
+        for x in range(self.label['width'], self.label_width, stepper):
+            self.label.config(width=x, height=self.label_height, font=(self.label_font_type, self.label_font_size))
+            print(self.win_width)
+            print(self.win_height)
+            self.update_rect_coords(0, 0, self.win_width, self.win_height)
             # TODO Make it so when the window increases, it increases from the middles out
-            self.geometry(f'{self.width}x{self.height}')
-            self.geometry(f'+{self.x}+{self.y}')
+            self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
     
             time.sleep(.01)
             self.update()
@@ -202,3 +207,19 @@ class Win(tk.Tk):
             config_dict = json.load(file)
             self.app_config = config_dict['config']
         return self.app_config
+
+    def initialize_variables(self):
+        self.label_width = self.app_config['label']['width']
+        self.label_height = self.app_config['label']['height']
+        self.label_font_type = self.app_config['label']['font_type']
+        self.label_font_size = self.app_config['label']['font_size']
+        
+        self.win_width = self.app_config['win']['width']
+        self.win_height = self.app_config['win']['height']
+        self.win_x = self.app_config['win']['x']
+        self.win_y = self.app_config['win']['y']
+        
+        self.radius = 25
+        self.click_count = 0
+        self.is_first_time = True
+

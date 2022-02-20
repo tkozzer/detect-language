@@ -29,6 +29,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
   - [X] Spanish
   - [X] German
   - [X] Portugese
+  - [ ] Allow user to add Languages
 - Be able to customize attributes
   - [X] Double click increases size of widget
   - [X] Double click increases font size
