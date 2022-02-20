@@ -1,9 +1,12 @@
 import tkinter as tk
 import sys
+import traceback
+import config
 
 class RightClick(tk.Frame):
 
-    def __init__(self, win, event) -> None:
+    def __init__(self, win, event, **kwargs) -> None:
+        self.kwargs = kwargs
         self.win = win
         self.right_click_menu = tk.Menu(self.win)
         self.right_click_menu.add_command(label="About Detect Language", command=self.about)
@@ -33,7 +36,14 @@ class RightClick(tk.Frame):
         pass
 
     def set_position(self):
-        print("set position")
+        try:
+            self.file = self.kwargs['file']            
+            print("From right click menu set position")
+            self.config = config.get_config(self.file)
+            print(self.config)
+        except Exception:
+            traceback.print_exc()
+            print(f"There seems to be an error.")
 
     def exit(self):
         try:

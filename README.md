@@ -37,7 +37,8 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [X] Add right clickability to customize functionality
   - [X] Add a right click menu with various options e.g. add/delete input languages
     - [X] Add quit application to right click menu
-    - [ ] Add functionality to right click options
+    - [ ] Add 'set position' click option
+    - [ ] Add 'add new language' option
 - [X] Add menubar class
   - [ ] Customize the menubar class with various options
 - [X] Add rounded corners to widget for more modern look

@@ -1,16 +1,13 @@
-import os
-import json
 import tkinter as tk
 import math
 import time
+import config
 
 from tkinter.constants import BOTH
-from turtle import window_height
 from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
 from tool_tip import Tooltip
-
 
 class Win(tk.Tk):
 
@@ -24,21 +21,20 @@ class Win(tk.Tk):
         self.attributes('-topmost', 'true')
         self.attributes('-transparent', True)
         self.config(background='systemTransparent')
+        self.file = "config.json"
 
-        self.app_config = self.get_config()
+        self.app_config = config.get_config(self.file)
         self.initialize_variables()
         # TODO see initialize_window() method for TODO details
         self.initialize_window()
 
         self.canvas = tk.Canvas(self, bg="systemTransparent", highlightthickness=0)
-        self.canvas.pack(fill=tk.BOTH, expand=1)
 
         self.language = Language()
         self.label = tk.Label(self.canvas, width=self.label_width, height=self.label_height, font=(self.label_font_type, self.label_font_size))
 
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
-
         self.bind('<Double-Button-1>', self.increase_size)
         # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
         self.bind('<Button-2>', self.right_click)
@@ -50,6 +46,7 @@ class Win(tk.Tk):
         # TODO add more menu bar items
         self.menubar = TopMenu(self)
 
+        self.canvas.pack(fill=tk.BOTH, expand=1)
         self.label.pack(padx=5, pady=5)
         self.show_language()
 
@@ -188,16 +185,7 @@ class Win(tk.Tk):
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
-        self.right_click = RightClick(self, event)
-
-    def get_config(self) -> dict:
-        # TODO does config json files exist if so open file and get config variables
-
-        __location__ = os.path.dirname(os.path.realpath(__file__))
-        with open(os.path.join(__location__, 'config.json'), 'r') as file:
-            config_dict = json.load(file)
-            self.app_config = config_dict['config']
-        return self.app_config
+        self.right_click = RightClick(self, event, file=self.file)
 
     def initialize_variables(self):
         self.label_width = self.app_config['label']['width']
