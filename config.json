@@ -45,17 +45,12 @@
   },
   "scim_list": ["WubihuaKeyboard", "PinyinKeyboard"],
   "config": {
+    "win": { "x": 1122, "y": 948, "width": 300, "height": 120 },
     "label": {
-      "width": 10,
-      "height": 2,
+      "width": 15,
+      "height": 3,
       "font_type": "Helvetica",
-      "font_size": 40
-    },
-    "win": {
-      "width": 200,
-      "height": 70,
-      "x": 0,
-      "y": 0
+      "font_size": 52
     }
   }
 }

@@ -15,11 +15,16 @@ def get_config(file) -> dict:
     __location__ = os.path.dirname(os.path.realpath(__file__))
     with open(os.path.join(__location__, file), 'r') as f:
         config_dict = json.load(f)
-        app_config = config_dict['config']
+        app_config = config_dict
     return app_config
 
-def save_config():
-    pass
+def save_config(file, new_config) -> bool:
+    if not config_exists(file):
+        return False
+    __location__ = os.path.dirname(os.path.realpath(__file__))
+    with open(os.path.join(__location__, file), 'w') as f:
+        json.dump(new_config, f)
+    return True
 
 def config_exists(file) -> bool:
     return os.path.exists(file)

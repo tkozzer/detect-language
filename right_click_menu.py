@@ -1,3 +1,4 @@
+from asyncio.proactor_events import _ProactorBaseWritePipeTransport
 import tkinter as tk
 import sys
 import traceback
@@ -38,12 +39,33 @@ class RightClick(tk.Frame):
     def set_position(self):
         try:
             self.file = self.kwargs['file']            
-            print("From right click menu set position")
             self.config = config.get_config(self.file)
-            print(self.config)
-        except Exception:
-            traceback.print_exc()
+            
+            if 'win' not in self.config['config']:
+                update_dict = {'win': {'x': self.win.winfo_rootx(), 'y':  self.win.winfo_rooty(), 'width': self.win.winfo_width(), 'height': self.win.winfo_height()}}
+                self.config['config'].update(update_dict)
+            else:
+                self.config['config']['win']['x'] = self.win.winfo_rootx()
+                self.config['config']['win']['y'] = self.win.winfo_rooty()
+                self.config['config']['win']['width'] = self.win.winfo_width()
+                self.config['config']['win']['height'] = self.win.winfo_height()
+
+            if 'label' not in self.config['config']:
+                update_dict = {'label': {'width': self.win.label['width'], 'height': self.win.label['height'], 'font_type': self.win.label_font_type, 'font_size': self.win.label_font_size}}
+                self.config['config'].update(update_dict)
+            else:
+                self.config['config']['label']['width'] = self.win.label['width']
+                self.config['config']['label']['height'] = self.win.label['height']
+                self.config['config']['label']['font_type'] = self.win.label_font_type
+                self.config['config']['label']['font_size'] = self.win.label_font_size
+            is_saved = config.save_config(self.file, self.config)
+            if not is_saved:
+                raise FileExistsError("File was not found.")
+        except FileExistsError as fe:
+            print(f'Error: {fe}')
+        except Exception as e:
             print(f"There seems to be an error.")
+            traceback.print_exc()
 
     def exit(self):
         try:

@@ -23,14 +23,10 @@ class Win(tk.Tk):
         self.config(background='systemTransparent')
         self.file = "config.json"
 
-        self.app_config = config.get_config(self.file)
-        self.initialize_variables()
-        # TODO see initialize_window() method for TODO details
-        self.initialize_window()
+        # Window pos setup along with initialization of variables
+        self.setup()
 
         self.canvas = tk.Canvas(self, bg="systemTransparent", highlightthickness=0)
-
-        self.language = Language()
         self.label = tk.Label(self.canvas, width=self.label_width, height=self.label_height, font=(self.label_font_type, self.label_font_size))
 
         self.bind('<B1-Motion>', self.dragwin)
@@ -48,28 +44,34 @@ class Win(tk.Tk):
 
         self.canvas.pack(fill=tk.BOTH, expand=1)
         self.label.pack(padx=5, pady=5)
+        self.language = Language()
         self.show_language()
 
-    def initialize_window(self):
-        # TODO turn this into an initialize window starting position
-        # We want the user to be able to have the window appear on the their screen in the correct location.
-        # The x and y coordinates will be stored in the config.json file and user till be able to automatically set those
-        # through the right click options.
+    def setup(self):
         self.update_idletasks()
+        self.app_config = config.get_config(self.file)['config']
 
-        # if width, height, x, y exist do this
+        if 'win' in self.app_config and 'label' in self.app_config:
+            self.initialize_variables()
+        else:
+            self.win_width = 200
+            self.win_height = 70
+            self.screen_width = self.winfo_screenwidth()
+            self.screen_height = self.winfo_screenheight()
 
-        # else do that
+            self.win_x = int((self.screen_width/2) - (self.win_width/2))
+            self.win_y = int((self.screen_height/2) - (self.win_height/2))
 
-        self.width = 200
-        self.height = 70
-        self.screen_width = self.winfo_screenwidth()
-        self.screen_height = self.winfo_screenheight()
+            self.label_width = 10
+            self.label_height = 2
+            self.label_font_type = "Helvetica"
+            self.label_font_size = 40
+        
+        self.radius = 20
+        self.click_count = 0
+        self.is_first_time = True
 
-        self.x = int((self.screen_width/2) - (self.width/2))
-        self.y = int((self.screen_height/2) - (self.height/2))
-
-        self.geometry(f'{self.width}x{self.height}+{self.x}+{self.y}')
+        self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
 
 
     def round_rectangle(self, x1, y1, x2, y2, **kwargs):  # Creating a rounded rectangle
@@ -188,17 +190,18 @@ class Win(tk.Tk):
         self.right_click = RightClick(self, event, file=self.file)
 
     def initialize_variables(self):
+        # This method will only be called if label and win exist in self.app_config dict
+        # Set label variables
         self.label_width = self.app_config['label']['width']
         self.label_height = self.app_config['label']['height']
         self.label_font_type = self.app_config['label']['font_type']
         self.label_font_size = self.app_config['label']['font_size']
-        
+
+        # Set win variables
         self.win_width = self.app_config['win']['width']
         self.win_height = self.app_config['win']['height']
         self.win_x = self.app_config['win']['x']
         self.win_y = self.app_config['win']['y']
         
-        self.radius = 20
-        self.click_count = 0
-        self.is_first_time = True
+
 
