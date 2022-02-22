@@ -45,7 +45,7 @@
   },
   "scim_list": ["WubihuaKeyboard", "PinyinKeyboard"],
   "config": {
-    "win": { "x": 1122, "y": 948, "width": 300, "height": 120 },
+    "win": { "x": 1118, "y": 988, "width": 300, "height": 120 },
     "label": {
       "width": 15,
       "height": 3,

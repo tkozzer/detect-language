@@ -1,3 +1,5 @@
+import os
+import traceback
 from window import Win
 import sys
 if __name__ == "__main__":
@@ -18,4 +20,7 @@ if __name__ == "__main__":
     except SystemExit:
         sys.exit()
     except Exception as e:
+        __location__ = os.path.dirname(os.path.realpath(__file__))
+        print(__location__)
         print(e)
+        traceback.print_exc()
