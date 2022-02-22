@@ -68,9 +68,9 @@ class Win(tk.Tk):
             self.label_height = 2
             self.label_font_type = "Helvetica"
             self.label_font_size = 40
+            self.click_count = 0
         
         self.radius = 20
-        self.click_count = 0
         self.is_first_time = True
 
         self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
@@ -140,6 +140,7 @@ class Win(tk.Tk):
 
     # The will import in detect_keyboard_lang and check which language is used and print it to the window
     def show_language(self):
+        # TODO when current language isn't supported, change the size of the font so it fits into the widget
         self.current_lang = self.language.get_current_language()
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width)
@@ -156,7 +157,7 @@ class Win(tk.Tk):
         # TODO smooth out the logic of the click
         self.update_idletasks()
         self.click_count += 1
-        if(self.click_count % 2 == 0):
+        if self.click_count % 2 == 0:
             self.label_width = 10
             self.label_height = 2
             self.label_font_size = 40
@@ -198,6 +199,7 @@ class Win(tk.Tk):
         self.label_height = self.app_config['label']['height']
         self.label_font_type = self.app_config['label']['font_type']
         self.label_font_size = self.app_config['label']['font_size']
+        self.click_count = self.app_config['label']['click_count']
 
         # Set win variables
         self.win_width = self.app_config['win']['width']

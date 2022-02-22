@@ -18,6 +18,7 @@ class Config:
     def get_config(self) -> dict:
         # TODO does config json files exist if so open file and get config variables
         if not self.config_exists():
+            # TODO if config doesn't exist, set one up for user
             return {"Error": f"{self.file_path} does not exist"}
         with open(self.file_path, 'r') as f:
             config_dict = json.load(f)
@@ -26,6 +27,7 @@ class Config:
 
     def save_config(self, new_config) -> bool:
         if not self.config_exists():
+            # TODO if config doesn't exist, set one up for the user
             return False
         with open(self.file_path, 'w') as f:
             json.dump(new_config, f)

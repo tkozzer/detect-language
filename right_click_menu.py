@@ -42,6 +42,8 @@ class RightClick(tk.Frame):
             self.config_instance = Config(self.file)
             self.config = self.config_instance.get_config()
             
+            click_count = 0 if self.win.click_count % 2 == 0 else 1
+
             if 'win' not in self.config['config']:
                 update_dict = {'win': {'x': self.win.winfo_rootx(), 'y':  self.win.winfo_rooty(), 'width': self.win.winfo_width(), 'height': self.win.winfo_height()}}
                 self.config['config'].update(update_dict)
@@ -52,13 +54,14 @@ class RightClick(tk.Frame):
                 self.config['config']['win']['height'] = self.win.winfo_height()
 
             if 'label' not in self.config['config']:
-                update_dict = {'label': {'width': self.win.label['width'], 'height': self.win.label['height'], 'font_type': self.win.label_font_type, 'font_size': self.win.label_font_size}}
+                update_dict = {'label': {'width': self.win.label['width'], 'height': self.win.label['height'], 'font_type': self.win.label_font_type, 'font_size': self.win.label_font_size, 'click_count': click_count}}
                 self.config['config'].update(update_dict)
             else:
                 self.config['config']['label']['width'] = self.win.label['width']
                 self.config['config']['label']['height'] = self.win.label['height']
                 self.config['config']['label']['font_type'] = self.win.label_font_type
                 self.config['config']['label']['font_size'] = self.win.label_font_size
+                self.config['config']['label']['click_count'] = click_count
             is_saved = self.config_instance.save_config(self.config)
             if not is_saved:
                 raise FileExistsError("File was not found.")
