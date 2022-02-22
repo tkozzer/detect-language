@@ -34,6 +34,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
   - [X] Double click increases size of widget
   - [X] Double click increases font size
 - [X] Add tooltip to label that tell user to double click to increase size
+  - [X] Make text dynamic on tooltip
 - [X] Add right clickability to customize functionality
   - [X] Add a right click menu with various options e.g. add/delete input languages
     - [X] Add quit application to right click menu

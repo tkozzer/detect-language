@@ -38,7 +38,7 @@ class Win(tk.Tk):
 
         # TODO Need to do more testing on and parameters of tool tip
         # TODO Create a smoother fading of tool tip.
-        self.label_tooltip = Tooltip(self.label, text="Double click to increase size", wraplength=200)
+        self.label_tooltip = Tooltip(self.label, text=self.tool_tip_text(), wraplength=200)
 
         # TODO add more menu bar items
         self.menubar = TopMenu(self)
@@ -165,6 +165,7 @@ class Win(tk.Tk):
             self.win_height = 70
             self.win_x = self.winfo_rootx() + 50
             self.win_y = self.winfo_rooty() + 25
+            self.label_tooltip.update_text(self.tool_tip_text())
         else:
             self.label_width = math.floor(self.label_width * 1.50)
             self.label_height = math.floor(self.label_height * 1.50)
@@ -173,6 +174,7 @@ class Win(tk.Tk):
             self.win_height = self.win_height + 50
             self.win_x  = self.winfo_rootx() - 50
             self.win_y = self.winfo_rooty() - 25
+            self.label_tooltip.update_text(self.tool_tip_text())
 
         # TODO preliminary window increase size animation. Works fairly decent, but could use a bit more work. Sufficient for now
         current_width = self.label['width']
@@ -191,6 +193,12 @@ class Win(tk.Tk):
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
         self.right_click = RightClick(self, event, file=self.file)
+
+    def tool_tip_text(self):
+        if self.click_count % 2 == 0:
+            return "Double click to increase size"
+        else:
+            return "Double click to decrease size"
 
     def initialize_variables(self):
         # This method will only be called if label and win exist in self.app_config dict

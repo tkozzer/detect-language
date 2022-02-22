@@ -70,6 +70,9 @@ class Tooltip:
         if id_:
             self.widget.after_cancel(id_)
 
+    def update_text(self, text):
+        self.text = text
+
     def show(self):
         def tip_pos_calculator(widget, label,
                                *,
