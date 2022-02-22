@@ -1,13 +1,14 @@
+from distutils.command.config import config
 import tkinter as tk
 import math
 import time
-import config
 
 from tkinter.constants import BOTH
 from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
 from tool_tip import Tooltip
+from config import Config
 
 class Win(tk.Tk):
 
@@ -49,7 +50,8 @@ class Win(tk.Tk):
 
     def setup(self):
         self.update_idletasks()
-        self.app_config = config.get_config(self.file)['config']
+        self.config = Config(self.file)
+        self.app_config = self.config.get_config()['config']
 
         if 'win' in self.app_config and 'label' in self.app_config:
             self.initialize_variables()

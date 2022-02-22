@@ -1,8 +1,8 @@
-from asyncio.proactor_events import _ProactorBaseWritePipeTransport
 import tkinter as tk
 import sys
 import traceback
-import config
+
+from config import Config
 
 class RightClick(tk.Frame):
 
@@ -38,8 +38,9 @@ class RightClick(tk.Frame):
 
     def set_position(self):
         try:
-            self.file = self.kwargs['file']            
-            self.config = config.get_config(self.file)
+            self.file = self.kwargs['file']
+            self.config_instance = Config(self.file)
+            self.config = self.config_instance.get_config()
             
             if 'win' not in self.config['config']:
                 update_dict = {'win': {'x': self.win.winfo_rootx(), 'y':  self.win.winfo_rooty(), 'width': self.win.winfo_width(), 'height': self.win.winfo_height()}}
@@ -58,7 +59,7 @@ class RightClick(tk.Frame):
                 self.config['config']['label']['height'] = self.win.label['height']
                 self.config['config']['label']['font_type'] = self.win.label_font_type
                 self.config['config']['label']['font_size'] = self.win.label_font_size
-            is_saved = config.save_config(self.file, self.config)
+            is_saved = self.config_instance.save_config(self.config)
             if not is_saved:
                 raise FileExistsError("File was not found.")
         except FileExistsError as fe:
