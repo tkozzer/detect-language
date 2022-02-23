@@ -142,8 +142,26 @@ class Win(tk.Tk):
     def show_language(self):
         # TODO when current language isn't supported, change the size of the font so it fits into the widget
         self.current_lang = self.language.get_current_language()
+
+        # TODO figure out the logic of making the font smaller when self.current_lang[0] == 'not_supported'
+        # if self.current_lang[0] == 'not_supported':
+        #     if self.click_count % 2 == 0:
+        #         self.label_font_size = int(40/1.6)
+        #         self.label_width = 12
+        #     else:
+        #         self.label_font_size = math.floor(40/1.6 * 1.3)
+        #         self.label_width = 12
+        # else:
+        #     if self.click_count % 2 == 0:
+        #         self.label_font_size = 40
+        #         self.label_width = 10
+        #     else:
+        #         self.label_font_size = math.floor(40 * 1.3)
+        #         self.label_width = 10
+
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
-                          ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width)
+                          ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width, font=(self.label_font_type,self.label_font_size))
+  
         if self.is_first_time:
             self.rounded = self.round_rectangle(0, 0, self.win_width, self.win_height, fill=self.current_lang[1]['bg'])
             self.is_first_time = False
@@ -169,7 +187,7 @@ class Win(tk.Tk):
         else:
             self.label_width = math.floor(self.label_width * 1.50)
             self.label_height = math.floor(self.label_height * 1.50)
-            self.label_font_size = math.floor(self.label_font_size * 1.3)
+            self.label_font_size = math.floor(self.label_font_size * 1.3) 
             self.win_width = self.win_width + 100
             self.win_height = self.win_height + 50
             self.win_x  = self.winfo_rootx() - 50
@@ -189,6 +207,7 @@ class Win(tk.Tk):
     
             time.sleep(.01)
             self.update()
+
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
