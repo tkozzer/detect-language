@@ -2,8 +2,6 @@ import tkinter as tk
 import sys
 import traceback
 
-from config import Config
-
 class RightClick(tk.Frame):
 
     def __init__(self, win, event, **kwargs) -> None:
@@ -15,6 +13,7 @@ class RightClick(tk.Frame):
         self.right_click_menu.add_separator()
         self.right_click_menu.add_command(label="Customize...", command=self.customize)
         self.right_click_menu.add_command(label="Set Position", command=self.set_position)
+        self.right_click_menu.add_command(label="Add New Language", command=self.add_new_language)
         self.right_click_menu.add_command(label="Quit", command=self.exit)
 
         self.popup(event)
@@ -38,9 +37,7 @@ class RightClick(tk.Frame):
 
     def set_position(self):
         try:
-            self.file = self.kwargs['file']
-            self.config_instance = Config(self.file)
-            self.config = self.config_instance.get_config()
+            self.config = self.win.config.get_config()
             
             click_count = 0 if self.win.click_count % 2 == 0 else 1
 
@@ -62,7 +59,7 @@ class RightClick(tk.Frame):
                 self.config['config']['label']['font_type'] = self.win.label_font_type
                 self.config['config']['label']['font_size'] = self.win.label_font_size
                 self.config['config']['label']['click_count'] = click_count
-            is_saved = self.config_instance.save_config(self.config)
+            is_saved = self.win.config.save_config(self.config)
             if not is_saved:
                 raise FileExistsError("File was not found.")
         except FileExistsError as fe:
@@ -70,6 +67,9 @@ class RightClick(tk.Frame):
         except Exception as e:
             print(f"There seems to be an error.")
             traceback.print_exc()
+
+    def add_new_language(self):
+        pass
 
     def exit(self):
         try:

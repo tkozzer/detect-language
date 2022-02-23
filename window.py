@@ -45,7 +45,7 @@ class Win(tk.Tk):
 
         self.canvas.pack(fill=tk.BOTH, expand=1)
         self.label.pack(padx=5, pady=5)
-        self.language = Language()
+        self.language = Language(win=self)
         self.show_language()
 
     def setup(self):
@@ -192,7 +192,7 @@ class Win(tk.Tk):
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
-        self.right_click = RightClick(self, event, file=self.file)
+        self.right_click = RightClick(self, event)
 
     def tool_tip_text(self):
         if self.click_count % 2 == 0:

@@ -45,6 +45,7 @@ I am currently learning Mandarin Chinese on Duolingo and I needed a way to see w
 - [X] Add rounded corners to widget for more modern look
 - [X] Add window resizing animation
   - [X] Make animation increase/decrease from middle out
+- [ ] Allow user to toggle between widget -topmost window
 - [ ] Add multiple python version compatibility
 - [ ] Use Py2App to create a standalone app
 - [ ] Add windows compatibility

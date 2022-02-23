@@ -1,6 +1,8 @@
 import os
 import json
 
+from config import Config
+
 """ 
 Simple method that uses a command line execution to get the value of the keyboard input language. It checks a list of languages (which can and will grow over time). If 
 the language is in the list, then the language will be returned or if it doesn't exist the user will see message that says that the langauge is not supported. 
@@ -12,21 +14,13 @@ input is in English (or any other language) or Pinyin.
 """
 class Language:
 
-    def __init__(self) -> None:
-        self.load_available_languages()
-        self.current_language = self.get_current_language()
-
-    def load_available_languages(self):
-        #TODO check to make sure a language.json exists
-
-        #TODO check list of AppleLanguages to determine which one the user has available
-       #Only works when called from directory needs to be fixed 
-        __location__ = os.path.dirname(os.path.realpath(__file__))
-
-        with open(os.path.join(__location__, 'config.json'), 'r') as file:
-            lang_dict = json.load(file)
-            self.languages = lang_dict['languages']
-            self.scim_list = lang_dict['scim_list']
+    def __init__(self, **kwargs) -> None:
+        if 'win' not in kwargs:
+            raise KeyError("There was no 'win' key passed to constructor.")
+        self.win = kwargs['win']
+        self.config = self.win.config
+        self.languages = self.config.get_config()['languages']
+        self.scim_list = self.win.config.get_config()['scim_list']
 
     def get_current_language(self) -> tuple:
         #TODO check to make sure that the file exists on the computer --> ~/Library/Preferences/com.apple.HIToolbox.plist
@@ -53,7 +47,7 @@ class Language:
             return (output_keyboard[-1], self.languages[output_keyboard[-1]])
 
             
-        #TODO if not supported allow user to add it to the language.json
+        #TODO if not supported allow user to add it to the config.json
 
 
 
