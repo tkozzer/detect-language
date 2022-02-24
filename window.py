@@ -12,6 +12,7 @@ from config import Config
 
 class Win(tk.Tk):
 
+
     def __init__(self, master=None):
         # Create draggable always on top window that has one label that is dynamic based on
         # which keyboard language is detected.
@@ -72,6 +73,7 @@ class Win(tk.Tk):
         
         self.radius = 20
         self.is_first_time = True
+        self.first_pass = True
 
         self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
 
@@ -140,28 +142,20 @@ class Win(tk.Tk):
 
     # The will import in detect_keyboard_lang and check which language is used and print it to the window
     def show_language(self):
-        # TODO when current language isn't supported, change the size of the font so it fits into the widget
+        if not self.is_first_time:
+            self.last_lang = self.current_lang[0]
         self.current_lang = self.language.get_current_language()
+        self.first_pass = not self.is_first_time and self.last_lang != self.current_lang[0]
 
-        # TODO figure out the logic of making the font smaller when self.current_lang[0] == 'not_supported'
-        # if self.current_lang[0] == 'not_supported':
-        #     if self.click_count % 2 == 0:
-        #         self.label_font_size = int(40/1.6)
-        #         self.label_width = 12
-        #     else:
-        #         self.label_font_size = math.floor(40/1.6 * 1.3)
-        #         self.label_width = 12
-        # else:
-        #     if self.click_count % 2 == 0:
-        #         self.label_font_size = 40
-        #         self.label_width = 10
-        #     else:
-        #         self.label_font_size = math.floor(40 * 1.3)
-        #         self.label_width = 10
+        if self.current_lang[0] == 'not_supported' and not self.first_pass:
+            self.set_label_vars()
+
+        if self.first_pass:
+            self.set_label_vars()
 
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width, font=(self.label_font_type,self.label_font_size))
-  
+
         if self.is_first_time:
             self.rounded = self.round_rectangle(0, 0, self.win_width, self.win_height, fill=self.current_lang[1]['bg'])
             self.is_first_time = False
@@ -171,26 +165,22 @@ class Win(tk.Tk):
         self.geometry(f'{self.win_width}x{self.win_height}')
         self.after(100, self.show_language)
 
+
     def increase_size(self, event):
-        # TODO smooth out the logic of the click
         self.update_idletasks()
         self.click_count += 1
+        self.set_label_vars()
+        # There are two size choices, change the number to after the modulo to increase size choices
         if self.click_count % 2 == 0:
-            self.label_width = 10
-            self.label_height = 2
-            self.label_font_size = 40
             self.win_width = 200
             self.win_height = 70
             self.win_x = self.winfo_rootx() + 50
             self.win_y = self.winfo_rooty() + 25
             self.label_tooltip.update_text(self.tool_tip_text())
         else:
-            self.label_width = math.floor(self.label_width * 1.50)
-            self.label_height = math.floor(self.label_height * 1.50)
-            self.label_font_size = math.floor(self.label_font_size * 1.3) 
-            self.win_width = self.win_width + 100
-            self.win_height = self.win_height + 50
-            self.win_x  = self.winfo_rootx() - 50
+            self.win_width = 200 + 100
+            self.win_height = 70 + 50
+            self.win_x = self.winfo_rootx() - 50
             self.win_y = self.winfo_rooty() - 25
             self.label_tooltip.update_text(self.tool_tip_text())
 
@@ -218,6 +208,25 @@ class Win(tk.Tk):
             return "Double click to increase size"
         else:
             return "Double click to decrease size"
+
+    def set_label_vars(self):
+        if self.click_count % 2 == 0:
+            if self.current_lang[0] == 'not_supported':
+                self.label_width = 12
+                self.label_font_size = int(40/1.6)
+            else:
+                self.label_width = 10
+                self.label_font_size = 40
+            self.label_height = 2
+        else:
+            if self.current_lang[0] == 'not_supported':
+                self.label_width = 17
+                self.label_font_size = int(52/1.6)
+            else:
+                self.label_width = 15
+                self.label_font_size = 52
+            self.label_height = 3
+
 
     def initialize_variables(self):
         # This method will only be called if label and win exist in self.app_config dict
