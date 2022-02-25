@@ -1,6 +1,4 @@
-from distutils.command.config import config
 import tkinter as tk
-import math
 import time
 
 from tkinter.constants import BOTH

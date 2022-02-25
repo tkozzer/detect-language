@@ -2,11 +2,14 @@ import tkinter as tk
 import sys
 import traceback
 
+from add_new_language_win import AddLanguage
+
 class RightClick(tk.Frame):
 
     def __init__(self, win, event, **kwargs) -> None:
         self.kwargs = kwargs
         self.win = win
+        self.config = self.win.config.get_config()
         self.right_click_menu = tk.Menu(self.win)
         self.right_click_menu.add_command(label="About Detect Language", command=self.about)
         self.right_click_menu.add_command(label="Check for Updates", command=self.check_updates)
@@ -37,8 +40,6 @@ class RightClick(tk.Frame):
 
     def set_position(self):
         try:
-            self.config = self.win.config.get_config()
-            
             click_count = 0 if self.win.click_count % 2 == 0 else 1
 
             if 'win' not in self.config['config']:
@@ -69,7 +70,15 @@ class RightClick(tk.Frame):
             traceback.print_exc()
 
     def add_new_language(self):
-        pass
+        self.language = self.win.language.output_keyboard 
+        if self.language[-1] in self.config['languages']:
+            print(self.config['languages'][self.language[-1]])
+        else:
+            print(self.language[-1])
+            print('Not in config.json')
+            self.input_win = AddLanguage(self.win)
+            # self.input_win.grab_set()
+        
 
     def exit(self):
         try:

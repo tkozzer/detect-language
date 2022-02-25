@@ -1,7 +1,4 @@
 import os
-import json
-
-from config import Config
 
 """ 
 Simple method that uses a command line execution to get the value of the keyboard input language. It checks a list of languages (which can and will grow over time). If 
@@ -33,18 +30,18 @@ class Language:
         keyboard_layout = os.popen(keyboard_layout_command)
         input_mode = os.popen(input_mode_command)
 
-        output_keyboard = keyboard_layout.read().strip().split('.')
+        self.output_keyboard = keyboard_layout.read().strip().split('.')
         output_input = input_mode.read().strip().replace(' ', '').replace(';', '').replace('"', '').split("=")
 
-        if len(output_input) > 1 and output_keyboard[-1] not in self.scim_list:
+        if len(output_input) > 1 and self.output_keyboard[-1] not in self.scim_list:
             defaults_write = "defaults write ~/Library/Preferences/com.apple.HIToolbox.plist \"AppleCurrentKeyboardLayoutInputSourceID\" 'com.apple.keylayout.PinyinKeyboard'"
             os.popen(defaults_write)
             print(f"Executed write to defaults: {defaults_write}")
 
-        if output_keyboard[-1] not in self.languages.keys():
+        if self.output_keyboard[-1] not in self.languages.keys():
             return ("not_supported", self.languages["not_supported"])
         else:
-            return (output_keyboard[-1], self.languages[output_keyboard[-1]])
+            return (self.output_keyboard[-1], self.languages[self.output_keyboard[-1]])
 
             
         #TODO if not supported allow user to add it to the config.json
