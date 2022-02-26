@@ -199,7 +199,7 @@ class Win(tk.Tk):
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
-        self.right_click = RightClick(self, event)
+        self.right_click1 = RightClick(self, event)
 
     def tool_tip_text(self):
         if self.click_count % 2 == 0:
