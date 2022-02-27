@@ -2,7 +2,7 @@ import tkinter as tk
 
 class AddLanguage(tk.Toplevel):
 
-    def __init__(self, parent):
+    def __init__(self, parent, **kwargs):
         super().__init__(parent)
         self.parent = parent
         self.overrideredirect(1)
@@ -17,7 +17,15 @@ class AddLanguage(tk.Toplevel):
         self.bind('<Button-2>', self.right_click)
 
         self.setup()
-
+        if 'language' in kwargs:
+            self.language = kwargs['language']
+        self.lang_label = tk.Label(self, fg='white', bg='black', text=self.language)
+        self.color_label = tk.Label(self, fg='white', bg='black', text="Enter color: ")
+        self.color_entry = tk.Entry(self, bg="white", fg='black', text="Hello")
+        self.lang_label.pack(pady=5)
+        self.color_label.pack()
+        self.color_entry.pack()
+        
 
 
     # These two methods are the brains behind dragging a menuless window

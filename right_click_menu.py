@@ -1,3 +1,4 @@
+from faulthandler import disable
 import tkinter as tk
 import sys
 import traceback
@@ -6,7 +7,7 @@ from add_new_language_win import AddLanguage
 
 class RightClick(tk.Frame):
 
-    def __init__(self, win, event, **kwargs) -> None:
+    def __init__(self, win, **kwargs) -> None:
         self.kwargs = kwargs
         self.win = win
         self.config = self.win.config.get_config()
@@ -19,7 +20,7 @@ class RightClick(tk.Frame):
         self.right_click_menu.add_command(label="Add New Language", command=self.add_new_language)
         self.right_click_menu.add_command(label="Quit", command=self.exit)
 
-        self.popup(event)
+        # self.popup(event)
 
     def popup(self, event):
         try:
@@ -76,9 +77,16 @@ class RightClick(tk.Frame):
         else:
             print(self.language[-1])
             print('Not in config.json')
-            self.input_win = AddLanguage(self.win)
-            # self.input_win.grab_set()
+            self.input_win = AddLanguage(self.win, language=self.language[-1])
+            self.disable_add_new_language()
         
+            # self.input_win.grab_set()
+
+    def disable_add_new_language(self):
+        self.right_click_menu.entryconfig("Add New Language", state="disabled")
+
+    def enable_add_new_language(self):
+        self.right_click_menu.entryconfig("Add New Language", state="normal")
 
     def exit(self):
         try:

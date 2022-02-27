@@ -41,6 +41,7 @@ class Win(tk.Tk):
 
         # TODO add more menu bar items
         self.menubar = TopMenu(self)
+        self.right_click1 = RightClick(self)
 
         self.canvas.pack(fill=tk.BOTH, expand=1)
         self.label.pack(padx=5, pady=5)
@@ -155,6 +156,13 @@ class Win(tk.Tk):
         if self.first_pass:
             self.set_label_vars()
 
+        if hasattr(self, 'input_win'):
+            self.right_click1.disable_add_new_language()
+        elif self.current_lang[0] != 'not_supported':
+            self.right_click1.disable_add_new_language()
+        else:
+            self.right_click1.enable_add_new_language()
+
         self.label.config(text=self.current_lang[1]["language"], fg=self.current_lang[1]
                           ["fg"], bg=self.current_lang[1]["bg"], width=self.label_width, font=(self.label_font_type,self.label_font_size))
 
@@ -203,11 +211,9 @@ class Win(tk.Tk):
 
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
-        self.right_click1 = RightClick(self, event)
+        self.right_click1.popup(event)
         if 'input_win' in self.right_click1.__dict__:
             self.input_win = self.right_click1.input_win
-        else:
-            self.input_win = None
 
     def tool_tip_text(self):
         if self.click_count % 2 == 0:
