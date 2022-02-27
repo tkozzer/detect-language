@@ -18,12 +18,15 @@ class AddLanguage(tk.Toplevel):
 
         self.setup()
 
+
+
     # These two methods are the brains behind dragging a menuless window
     def dragwin(self, event):
         x = self.winfo_pointerx() - self._offsetx
         y = self.winfo_pointery() - self._offsety - 100
         self.parent.geometry(f'+{x}+{y}')
         self.geometry(f'+{x}+{y + self.win_height - 10}')
+
 
     def clickwin(self, event):
         self._offsetx = event.x

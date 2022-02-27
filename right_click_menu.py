@@ -85,3 +85,5 @@ class RightClick(tk.Frame):
             self.win.destroy()
         except SystemExit:
             sys.exit()
+        except Exception:
+            sys.exit()

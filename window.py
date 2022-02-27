@@ -18,7 +18,7 @@ class Win(tk.Tk):
         self.overrideredirect(True)
         # Only need this self.overrideredirct in certain circumstances TODO figure out the edge cases for this and only use this when necessary
         self.overrideredirect(False)
-        self.attributes('-topmost', 'true')
+        self.attributes('-topmost', True)
         self.attributes('-transparent', True)
         self.config(background='systemTransparent')
         self.file = "config.json"
@@ -134,6 +134,10 @@ class Win(tk.Tk):
         y = self.winfo_pointery() - self._offsety
         self.geometry(f'+{x}+{y}')
 
+        if hasattr(self, 'input_win'):
+            self.input_win.geometry(f'+{x}+{y + self.input_win.win_height - 10}')
+
+
     def clickwin(self, event):
         self._offsetx = event.x
         self._offsety = event.y
@@ -200,6 +204,10 @@ class Win(tk.Tk):
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
         self.right_click1 = RightClick(self, event)
+        if 'input_win' in self.right_click1.__dict__:
+            self.input_win = self.right_click1.input_win
+        else:
+            self.input_win = None
 
     def tool_tip_text(self):
         if self.click_count % 2 == 0:
