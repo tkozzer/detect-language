@@ -77,7 +77,7 @@ class RightClick(tk.Frame):
         else:
             print(self.language[-1])
             print('Not in config.json')
-            self.input_win = AddLanguage(self.win, language=self.language[-1])
+            self.input_win = AddLanguage(self.win)
             self.disable_add_new_language()
         
             # self.input_win.grab_set()

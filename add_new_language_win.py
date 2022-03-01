@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from validate import Validator as v
+
 class AddLanguage(tk.Toplevel):
 
     def __init__(self, parent, **kwargs):
@@ -17,14 +19,12 @@ class AddLanguage(tk.Toplevel):
         self.bind('<Button-2>', self.right_click)
 
         self.setup()
-        if 'language' in kwargs:
-            self.language = kwargs['language']
-        self.lang_label = tk.Label(self, fg='white', bg='black', text=self.language)
-        self.color_label = tk.Label(self, fg='white', bg='black', text="Enter color: ")
-        self.color_entry = tk.Entry(self, bg="white", fg='black', text="Hello")
-        self.lang_label.pack(pady=5)
-        self.color_label.pack()
-        self.color_entry.pack()
+        self.language = self.parent.language.output_keyboard[-1]
+
+            
+        self.create_widgets()
+        self.bindings()
+
         
 
 
@@ -45,7 +45,63 @@ class AddLanguage(tk.Toplevel):
         self.win_height = self.parent.win_height
         x_pos = self.parent.winfo_rootx()
         y_pos = self.parent.winfo_rooty()
-        self.geometry(f'{self.win_width}x{self.win_height}+{x_pos}+{y_pos + self.win_height - 10}')
+        self.geometry(f'{self.win_width}x{self.win_height + 100}+{x_pos}+{y_pos + self.win_height - 10}')
 
     def right_click(self, event):
         self.parent.right_click(event)
+
+    def create_widgets(self):
+        self.current_lang_label = tk.Label(self, fg='white', bg='black', text=self.language)
+        self.lang_label = tk.Label(self,fg='white', bg='black', text="Enter Language: ")
+        self.lang_entry = tk.Entry(self, bg="white", fg='black')
+        self.primary_color_label = tk.Label(self, fg='white', bg='black', text="Enter primary color: ")
+        self.primary_color_entry = tk.Entry(self, bg="white", fg='black')
+        self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
+        self.secondary_color_entry = tk.Entry(self, bg="white", fg='black')
+        self.current_lang_label.pack(pady=5)
+        self.lang_label.pack()
+        self.lang_entry.pack()
+        self.primary_color_label.pack()
+        self.primary_color_entry.pack()
+        self.secondary_color_label.pack()
+        self.secondary_color_entry.pack()
+        self.lang_entry.focus()
+
+    def bindings(self):
+        ENTER_KEY = '<Return>'
+        self.lang_entry.bind(ENTER_KEY, self.lang_entry_bind)
+        self.primary_color_entry.bind(ENTER_KEY, self.primary_color_entry_bind)
+        self.secondary_color_entry.bind(ENTER_KEY, self.secondary_color_entry_bind)
+    
+    def lang_entry_bind(self,event):
+        print("lang_entry_bind: ", event)
+        validated = False
+        while not validated:
+            try:
+                validated = v.validate_entry_input(self.lang_entry.get(), type="lang")
+                self.primary_color_entry.focus()
+            except ValueError as ve:
+                # print(ve)
+                self.lang_entry.delete(0, 'end')
+                break
+        
+
+    def primary_color_entry_bind(self,event):
+        print("primary_color_entry_bind: ", event)
+        validated = False
+        while not validated:
+            try:
+                validated = v.validate_entry_input(self.primary_color_entry.get(), type="color")
+            except ValueError as ve:
+                pass
+        self.secondary_color_entry.focus()
+    
+    def secondary_color_entry_bind(self,event):
+        print("secondary_color_entry_bind: ", event)
+        validated = False
+        while not validated:
+            try:
+                validated = v.validate_entry_input(self.secondary_color_entry.get(), type="color")
+            except ValueError as ve:
+                pass
+        self.destroy()
