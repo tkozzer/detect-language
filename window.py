@@ -54,6 +54,8 @@ class Win(tk.Tk):
         self.bind('<Button-2>', self.right_click)
         self.bind('<B1-Motion>', self.dragwin)
         self.bind('<Button-1>', self.clickwin)
+        # The first time through all bindings will be activated. If bindings is called again a key-word can be
+        # passed to unbind increase/decrease. This is use for when input is required for a adding a new language
         if 'double_click' in kwargs:
             is_double_on = kwargs['double_click']
             if not is_double_on:
