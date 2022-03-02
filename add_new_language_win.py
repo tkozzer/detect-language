@@ -104,4 +104,5 @@ class AddLanguage(tk.Toplevel):
                 validated = v.validate_entry_input(self.secondary_color_entry.get(), type="color")
             except ValueError as ve:
                 pass
+        self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
         self.destroy()

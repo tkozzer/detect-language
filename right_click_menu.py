@@ -2,6 +2,7 @@ from faulthandler import disable
 import tkinter as tk
 import sys
 import traceback
+import time
 
 from add_new_language_win import AddLanguage
 
@@ -79,8 +80,8 @@ class RightClick(tk.Frame):
             print('Not in config.json')
             self.input_win = AddLanguage(self.win)
             self.disable_add_new_language()
+            self.win.bindings(double_click=False)
         
-            # self.input_win.grab_set()
 
     def disable_add_new_language(self):
         self.right_click_menu.entryconfig("Add New Language", state="disabled")

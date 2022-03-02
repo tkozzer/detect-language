@@ -29,11 +29,12 @@ class Win(tk.Tk):
         self.canvas = tk.Canvas(self, bg="systemTransparent", highlightthickness=0)
         self.label = tk.Label(self.canvas, width=self.label_width, height=self.label_height, font=(self.label_font_type, self.label_font_size))
 
-        self.bind('<B1-Motion>', self.dragwin)
-        self.bind('<Button-1>', self.clickwin)
-        self.bind('<Double-Button-1>', self.increase_size)
-        # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
-        self.bind('<Button-2>', self.right_click)
+        self.bindings()
+        # self.bind('<B1-Motion>', self.dragwin)
+        # self.bind('<Button-1>', self.clickwin)
+        # self.bind('<Double-Button-1>', self.increase_size)
+        # # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
+        # self.bind('<Button-2>', self.right_click)
 
         # TODO Need to do more testing on and parameters of tool tip
         # TODO Create a smoother fading of tool tip.
@@ -47,6 +48,18 @@ class Win(tk.Tk):
         self.label.pack(padx=5, pady=5)
         self.language = Language(win=self)
         self.show_language()
+
+    def bindings(self, **kwargs):
+        # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
+        self.bind('<Button-2>', self.right_click)
+        self.bind('<B1-Motion>', self.dragwin)
+        self.bind('<Button-1>', self.clickwin)
+        if 'double_click' in kwargs:
+            is_double_on = kwargs['double_click']
+            if not is_double_on:
+                self.unbind('<Double-Button-1>', self.double_click_id)
+        else:
+           self.double_click_id = self.bind('<Double-Button-1>', self.increase_size)
 
     def setup(self):
         self.update_idletasks()
