@@ -1,5 +1,7 @@
 import tkinter as tk
+
 from validate import Validator as v
+from tkinter import font
 
 class AddLanguage(tk.Toplevel):
 
@@ -42,6 +44,8 @@ class AddLanguage(tk.Toplevel):
         self.win_height = self.parent.win_height
         self.x_pos = self.parent.winfo_rootx()
         self.y_pos = self.parent.winfo_rooty()
+        self.defaultFont = font.nametofont("TkDefaultFont")
+        self.defaultFont.configure(family="Helvetica", size=20)
         self.geometry(f'{self.win_width}x{self.win_height}+{self.x_pos}+{self.y_pos + self.win_height - 10}')
 
     def right_click(self, event):
@@ -49,6 +53,7 @@ class AddLanguage(tk.Toplevel):
 
     def create_widgets(self):
         self.current_lang_label = tk.Label(self, fg='white', bg='black', text=self.language)
+        self.seperator = tk.Frame(self, bg='white', height=1, bd=0)
         self.lang_label = tk.Label(self,fg='white', bg='black', text="Enter Language: ")
         self.lang_entry = tk.Entry(self, bg="white", fg='black')
         self.primary_color_label = tk.Label(self, fg='white', bg='black', text="Enter primary color: ")
@@ -56,13 +61,12 @@ class AddLanguage(tk.Toplevel):
         self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
         self.secondary_color_entry = tk.Entry(self, bg="white", fg='black')
         self.current_lang_label.pack(pady=5)
+        self.seperator.pack(fill='x', pady=(5,5))
         self.lang_label.pack()
         self.lang_entry.pack()
+        self.lang_entry.insert(0, self.language)
         self.lang_entry.focus()
-        # self.primary_color_label.pack()
-        # self.primary_color_entry.pack()
-        # self.secondary_color_label.pack()
-        # self.secondary_color_entry.pack()
+        self.update_geometry_height(30)
 
     def bindings(self):
         ENTER_KEY = '<Return>'
@@ -75,7 +79,6 @@ class AddLanguage(tk.Toplevel):
         self.bind('<Button-2>', self.right_click)
     
     def lang_entry_bind(self,event):
-        print("lang_entry_bind: ", event)
         validated = False
         while not validated:
             try:
@@ -85,11 +88,11 @@ class AddLanguage(tk.Toplevel):
                 print(ve)
                 self.lang_entry.delete(0, 'end')
                 break
-        self.lang_label.config(text=f'{self.lang_entry.get()}')
+        self.lang_label.config(text=f'{self.lang_entry.get()}', pady=5)
         self.lang_entry.destroy()
         self.primary_color_label.pack()
         self.primary_color_entry.pack()
-        self.geometry(f'{self.win_width}x{self.win_height + 20}+{self.x_pos}+{self.y_pos + self.win_height - 10}')
+        self.update_geometry_height(60)
 
     def primary_color_entry_bind(self,event):
         print("primary_color_entry_bind: ", event)
@@ -102,11 +105,12 @@ class AddLanguage(tk.Toplevel):
                 self.primary_color_entry.delete(0, 'end')
                 break
         self.secondary_color_entry.focus()
-        self.primary_color_label.config(text=f'{self.primary_color_entry.get()}')
+        self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5)
         self.primary_color_entry.destroy()
         self.secondary_color_label.pack()
         self.secondary_color_entry.pack()
-        self.geometry(f'{self.win_width}x{self.win_height + 40}+{self.x_pos}+{self.y_pos + self.win_height - 10}')
+        self.update_geometry_height(80)
+        
 
 
     
@@ -124,10 +128,16 @@ class AddLanguage(tk.Toplevel):
         self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
         self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}')
         self.secondary_color_entry.destroy()
-        self.submit_btn = tk.Button(self, text="Submit", command=self.submit_by_click).pack(pady=10)
-        # self.edit_btn = tk.Button(self, text="Edit", command=self.edit).pack(pady=20)
+        self.submit_btn = tk.Button(self, text="Submit", command=self.submit_by_click, width=10, font=10)
+        self.submit_btn.pack(side=tk.LEFT, padx=(50, 20))
+        self.edit_btn = tk.Button(self, text="Edit", command=self.edit, width=10, font=10)
+        self.edit_btn.pack(side=tk.LEFT)
         self.bind('<Return>', self.submit)
-        self.geometry(f'{self.win_width}x{self.win_height + 60}+{self.x_pos}+{self.y_pos + self.win_height - 10}')
+        self.update_geometry_height(100)
+        
+
+    def update_geometry_height(self, x):
+        self.geometry(f'{self.win_width}x{self.win_height + x}')
 
     def submit(self, event):
         self.save_input()
@@ -139,5 +149,5 @@ class AddLanguage(tk.Toplevel):
     def save_input(self):
         print("save_input")
 
-    # def edit(self, event):
-    #     print("edit")
+    def edit(self):
+        print("edit")
