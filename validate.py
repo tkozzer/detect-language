@@ -16,6 +16,8 @@ class Validator:
             # raise ValueError("Language isn't accepted")
             pass
         if validate_type == 'color':
+            # TODO check if input starts with a '#', if so make sure hex color is of correct length
+            # else if color is in plaintext, make sure it is an acceptable tkinter color
             # raise ValueError("Color not accepted")
             pass
         

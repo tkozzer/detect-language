@@ -53,7 +53,8 @@ class AddLanguage(tk.Toplevel):
 
     def create_widgets(self):
         self.current_lang_label = tk.Label(self, fg='white', bg='black', text=f"Current Language:\n{self.language}")
-        self.seperator = tk.Frame(self, bg='white', height=1, bd=0)
+        self.seperator1 = tk.Frame(self, bg='white', height=1, bd=0)
+        self.seperator2 = tk.Frame(self, bg='white', height=1, bd=0)
         self.lang_label = tk.Label(self,fg='white', bg='black', text="Enter Language: ")
         self.lang_entry = tk.Entry(self, bg="white", fg='black')
         self.primary_color_label = tk.Label(self, fg='white', bg='black', text="Enter primary color: ")
@@ -61,8 +62,9 @@ class AddLanguage(tk.Toplevel):
         self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
         self.secondary_color_entry = tk.Entry(self, bg="white", fg='black')
         self.color_button = tk.Button(self, text="Pick a color", width=10, command=self.choose_color, font=10)
+        self.seperator1.pack(fill='x', pady=(5,5))
         self.current_lang_label.pack(pady=5)
-        self.seperator.pack(fill='x', pady=(5,5))
+        self.seperator2.pack(fill='x', pady=(5,5))
         self.lang_label.pack()
         self.lang_entry.pack()
         self.lang_entry.insert(0, self.language)
@@ -87,8 +89,8 @@ class AddLanguage(tk.Toplevel):
             self.lang_entry.destroy()
             self.primary_color_label.pack()
             self.primary_color_entry.pack()
-            self.color_button.pack()
-            self.update_geometry_height(80)
+            self.color_button.pack(pady=(5,5))
+            self.update_geometry_height(110)
         except ValueError as ve:
             print(ve)
             self.lang_entry.delete(0, 'end')
@@ -101,12 +103,11 @@ class AddLanguage(tk.Toplevel):
             self.secondary_color_entry.focus()
             self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5)
             self.primary_color_entry.destroy()
-            self.color_button.destroy()
+            self.color_button.pack_forget()
             self.secondary_color_label.pack()
             self.secondary_color_entry.pack()
-            self.color_button = tk.Button(self, text="Pick a color", width=10, command=self.choose_color, font=10)
-            self.color_button.pack()
-            self.update_geometry_height(120)
+            self.color_button.pack(pady=(5,5))
+            self.update_geometry_height(150)
         except ValueError as ve:
             print(ve)
             self.primary_color_entry.delete(0, 'end')
@@ -119,13 +120,13 @@ class AddLanguage(tk.Toplevel):
             self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
             self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}')
             self.secondary_color_entry.destroy()
-            self.color_button.destroy()
+            self.color_button.pack_forget()
             self.submit_btn = tk.Button(self, text="Submit", command=self.submit_by_click, width=10, font=10)
             self.submit_btn.pack(side=tk.LEFT, padx=(50, 20))
             self.edit_btn = tk.Button(self, text="Edit", command=self.edit, width=10, font=10)
             self.edit_btn.pack(side=tk.LEFT)
             self.bind('<Return>', self.submit)
-            self.update_geometry_height(140)
+            self.update_geometry_height(150)
         except ValueError as ve:
             print(ve)
             self.secondary_color_entry.delete(0, 'end')
@@ -133,7 +134,15 @@ class AddLanguage(tk.Toplevel):
 
     def choose_color(self):
         self.color_code = colorchooser.askcolor(title="Choose color")
-        print(self.color_code)
+        if self.primary_color_entry.winfo_exists() and self.primary_color_entry.winfo_ismapped():
+            self.primary_color_entry.delete(0, 'end')
+            self.primary_color_entry.insert(0, self.color_code[1])
+            self.primary_color_entry.focus()
+        if self.secondary_color_entry.winfo_exists() and self.secondary_color_entry.winfo_ismapped():
+            self.secondary_color_entry.delete(0, 'end')
+            self.secondary_color_entry.insert(0, self.color_code[1])
+            self.secondary_color_entry.focus()
+
         
     def update_geometry_height(self, x):
         self.geometry(f'{self.win_width}x{self.win_height + x}')
