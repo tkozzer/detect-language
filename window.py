@@ -6,7 +6,7 @@ from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
 from tool_tip import Tooltip
-from json.config import Config
+from config import Config
 
 class Win(tk.Tk):
 
