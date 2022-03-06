@@ -13,19 +13,13 @@ class AddLanguage(tk.Toplevel):
         self.attributes('-topmost', 'true')
         self.attributes('-transparent', True)
         self.config(background=self.parent.current_lang[1]['bg'])
-        self.file = "config.json"
-
-
+        # self.file = "json/config.json"
 
         self.setup()
         self.language = self.parent.language.output_keyboard[-1]
-
             
         self.create_widgets()
         self.bindings()
-
-        
-
 
     # These two methods are the brains behind dragging a menuless window
     def dragwin(self, event):
@@ -33,7 +27,6 @@ class AddLanguage(tk.Toplevel):
         y = self.winfo_pointery() - self._offsety - 100
         self.parent.geometry(f'+{x}+{y}')
         self.geometry(f'+{x}+{y + self.win_height - 10}')
-
 
     def clickwin(self, event):
         self._offsetx = event.x
@@ -94,8 +87,7 @@ class AddLanguage(tk.Toplevel):
         except ValueError as ve:
             print(ve)
             self.lang_entry.delete(0, 'end')
-            self.lang_entry.focus()
-                
+            self.lang_entry.focus()             
 
     def primary_color_entry_bind(self,event):
         try:

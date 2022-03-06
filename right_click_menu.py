@@ -1,8 +1,6 @@
-from faulthandler import disable
 import tkinter as tk
 import sys
 import traceback
-import time
 
 from add_new_language_win import AddLanguage
 

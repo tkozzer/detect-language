@@ -6,7 +6,7 @@ from detect_keyboard_lang import Language
 from right_click_menu import RightClick
 from top_menu import TopMenu
 from tool_tip import Tooltip
-from config import Config
+from json.config import Config
 
 class Win(tk.Tk):
 
@@ -21,7 +21,7 @@ class Win(tk.Tk):
         self.attributes('-topmost', True)
         self.attributes('-transparent', True)
         self.config(background='systemTransparent')
-        self.file = "config.json"
+        self.file = "json/config.json"
 
         # Window pos setup along with initialization of variables
         self.setup()
@@ -30,11 +30,6 @@ class Win(tk.Tk):
         self.label = tk.Label(self.canvas, width=self.label_width, height=self.label_height, font=(self.label_font_type, self.label_font_size))
 
         self.bindings()
-        # self.bind('<B1-Motion>', self.dragwin)
-        # self.bind('<Button-1>', self.clickwin)
-        # self.bind('<Double-Button-1>', self.increase_size)
-        # # TODO need to check other mouses to make sure <Button-2> is the right click in all circumstances
-        # self.bind('<Button-2>', self.right_click)
 
         # TODO Need to do more testing on and parameters of tool tip
         # TODO Create a smoother fading of tool tip.
@@ -90,7 +85,6 @@ class Win(tk.Tk):
         self.first_pass = True
 
         self.geometry(f'{self.win_width}x{self.win_height}+{self.win_x}+{self.win_y}')
-
 
     def round_rectangle(self, x1, y1, x2, y2, **kwargs):  # Creating a rounded rectangle
         radius = self.radius
@@ -153,7 +147,6 @@ class Win(tk.Tk):
         if hasattr(self, 'input_win'):
             self.input_win.geometry(f'+{x}+{y + self.input_win.win_height - 10}')
 
-
     def clickwin(self, event):
         self._offsetx = event.x
         self._offsety = event.y
@@ -190,7 +183,6 @@ class Win(tk.Tk):
         self.geometry(f'{self.win_width}x{self.win_height}')
         self.after(100, self.show_language)
 
-
     def increase_size(self, event):
         self.update_idletasks()
         self.click_count += 1
@@ -223,7 +215,6 @@ class Win(tk.Tk):
             time.sleep(.01)
             self.update()
 
-
     def right_click(self, event):
         # TODO create a right click menu that lets the user input new languages, check current languages and other options
         self.right_click1.popup(event)
@@ -253,7 +244,6 @@ class Win(tk.Tk):
                 self.label_width = 15
                 self.label_font_size = 52
             self.label_height = 3
-
 
     def initialize_variables(self):
         # This method will only be called if label and win exist in self.app_config dict
