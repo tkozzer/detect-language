@@ -6,7 +6,6 @@ class Validator:
 
     @staticmethod
     def validate_entry_input(input, **kwargs) -> bool:
-        print(input)
         if 'type' in kwargs:
             validate_type = kwargs['type']
             

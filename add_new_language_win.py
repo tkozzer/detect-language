@@ -54,7 +54,8 @@ class AddLanguage(tk.Toplevel):
         self.primary_color_entry = tk.Entry(self, bg="white", fg='black')
         self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
         self.secondary_color_entry = tk.Entry(self, bg="white", fg='black')
-        self.color_button = tk.Button(self, text="Pick a color", width=10, command=self.choose_color, font=10)
+        self.color_btn = tk.Button(self, text="Pick a color", width=10, command=self.choose_color, font=10)
+        self.next_btn = tk.Button(self, text="Next", width=9, command=self.next_btn_command, font=10)
         self.seperator1.pack(fill='x', pady=(5,5))
         self.current_lang_label.pack(pady=5)
         self.seperator2.pack(fill='x', pady=(5,5))
@@ -82,7 +83,8 @@ class AddLanguage(tk.Toplevel):
             self.lang_entry.destroy()
             self.primary_color_label.pack()
             self.primary_color_entry.pack()
-            self.color_button.pack(pady=(5,5))
+            self.color_btn.pack(pady=(5,5), padx=(55, 1), side=tk.LEFT)
+            self.next_btn.pack(padx=(10,10), side=tk.LEFT)
             self.update_geometry_height(110)
         except ValueError as ve:
             print(ve)
@@ -93,12 +95,14 @@ class AddLanguage(tk.Toplevel):
         try:
             v.validate_entry_input(self.primary_color_entry.get(), type="color")
             self.secondary_color_entry.focus()
-            self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5)
+            self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5, fg=self.color_code[1])
             self.primary_color_entry.destroy()
-            self.color_button.pack_forget()
+            self.color_btn.pack_forget()
+            self.next_btn.pack_forget()
             self.secondary_color_label.pack()
             self.secondary_color_entry.pack()
-            self.color_button.pack(pady=(5,5))
+            self.color_btn.pack(pady=(5,5), padx=(55, 1), side=tk.LEFT)
+            self.next_btn.pack(padx=(10,10), side=tk.LEFT)
             self.update_geometry_height(150)
         except ValueError as ve:
             print(ve)
@@ -110,9 +114,10 @@ class AddLanguage(tk.Toplevel):
             v.validate_entry_input(self.secondary_color_entry.get(), type="color")
             # This will add the increase/decrease binding back on
             self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
-            self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}')
+            self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}', fg=self.color_code[1])
             self.secondary_color_entry.destroy()
-            self.color_button.pack_forget()
+            self.color_btn.pack_forget()
+            self.next_btn.pack_forget()
             self.submit_btn = tk.Button(self, text="Submit", command=self.submit_by_click, width=10, font=10)
             self.submit_btn.pack(side=tk.LEFT, padx=(50, 20))
             self.edit_btn = tk.Button(self, text="Edit", command=self.edit, width=10, font=10)
@@ -125,15 +130,22 @@ class AddLanguage(tk.Toplevel):
             self.secondary_color_entry.focus()
 
     def choose_color(self):
-        self.color_code = colorchooser.askcolor(title="Choose color")
+        self.color_code = colorchooser.askcolor(title="Choose color", parent=self)
+        if self.color_code[1] is None:
+            return
         if self.primary_color_entry.winfo_exists() and self.primary_color_entry.winfo_ismapped():
             self.primary_color_entry.delete(0, 'end')
             self.primary_color_entry.insert(0, self.color_code[1])
+            self.focus()
             self.primary_color_entry.focus()
         if self.secondary_color_entry.winfo_exists() and self.secondary_color_entry.winfo_ismapped():
             self.secondary_color_entry.delete(0, 'end')
             self.secondary_color_entry.insert(0, self.color_code[1])
+            self.focus()
             self.secondary_color_entry.focus()
+    
+    def next_btn_command(self):
+        print("next")
 
         
     def update_geometry_height(self, x):
