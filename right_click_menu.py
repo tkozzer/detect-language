@@ -17,6 +17,7 @@ class RightClick(tk.Frame):
         self.right_click_menu.add_command(label="Customize...", command=self.customize)
         self.right_click_menu.add_command(label="Set Position", command=self.set_position)
         self.right_click_menu.add_command(label="Add New Language", command=self.add_new_language)
+        self.right_click_menu.add_command(label="Help", command=self.help)
         self.right_click_menu.add_command(label="Quit", command=self.exit)
 
         # self.popup(event)
@@ -30,6 +31,9 @@ class RightClick(tk.Frame):
             pass
 
     def about(self):
+        pass
+
+    def help(self):
         pass
 
     def check_updates(self):

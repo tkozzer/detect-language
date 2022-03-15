@@ -1,4 +1,5 @@
 import tkinter as tk
+from detect_keyboard_lang import Language
 
 from validate import Validator as v
 from tkinter import font, colorchooser
@@ -8,12 +9,13 @@ class AddLanguage(tk.Toplevel):
     def __init__(self, parent, **kwargs):
         super().__init__(parent)
         self.parent = parent
+        self.main_config = self.parent.config.get_config()
+        self.lang_config = self.main_config['languages']
         self.overrideredirect(1)
         self.overrideredirect(0)
         self.attributes('-topmost', 'true')
         self.attributes('-transparent', True)
         self.config(background=self.parent.current_lang[1]['bg'])
-        # self.file = "json/config.json"
 
         self.setup()
         self.language = self.parent.language.output_keyboard[-1]
@@ -25,8 +27,8 @@ class AddLanguage(tk.Toplevel):
     def dragwin(self, event):
         self.x = self.winfo_pointerx() - self._offsetx
         self.y = self.winfo_pointery() - self._offsety - 100
-        self.parent.geometry(f'+{x}+{y}')
-        self.geometry(f'+{x}+{y + self.parent.win_height}')
+        self.parent.geometry(f'+{self.x}+{self.y}')
+        self.geometry(f'+{self.x}+{self.y + self.parent.win_height}')
 
     def clickwin(self, event):
         self._offsetx = event.x
@@ -40,7 +42,7 @@ class AddLanguage(tk.Toplevel):
         self.x = self.x_pos
         self.y = self.y_pos
         self.defaultFont = font.nametofont("TkDefaultFont")
-        self.defaultFont.configure(family="Helvetica", size=20)
+        self.defaultFont.configure(family=self.parent.app_config['label']['font_type'], size=20)
         self.geometry(f'{self.win_width}x{self.win_height}+{self.x_pos}+{self.y_pos + self.win_height}')
 
     def right_click(self, event):
@@ -84,6 +86,7 @@ class AddLanguage(tk.Toplevel):
             v.validate_entry_input(self.lang_entry.get(), type="lang")
             self.primary_color_entry.focus()
             self.lang_label.config(text=f'{self.lang_entry.get()}', pady=5)
+            self.lang_key = self.lang_entry.get()
             self.lang_entry.destroy()
             self.next_btn.pack_forget()
             self.primary_color_label.pack()
@@ -102,6 +105,7 @@ class AddLanguage(tk.Toplevel):
             v.validate_entry_input(self.primary_color_entry.get(), type="color")
             self.secondary_color_entry.focus()
             self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5, fg=self.primary_color_entry.get())
+            self.fg_key = self.primary_color_entry.get()
             self.primary_color_entry.destroy()
             self.color_btn.pack_forget()
             self.next_btn.pack_forget()
@@ -122,15 +126,15 @@ class AddLanguage(tk.Toplevel):
             # This will add the increase/decrease binding back on
             self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
             self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}', fg=self.secondary_color_entry.get())
+            self.save_input(self.language, secondary_color=self.secondary_color_entry.get(), primary_color=self.fg_key, language=self.lang_key)
             self.secondary_color_entry.destroy()
             self.color_btn.pack_forget()
             self.next_btn.pack_forget()
-            self.submit_btn = tk.Button(self, text="Submit", command=self.submit_by_click, width=10, font=10)
+            self.submit_btn = tk.Button(self, text="Submit", command=self.submit_click, width=10, font=10)
             self.submit_btn.pack(side=tk.LEFT, padx=(50, 20))
             self.edit_btn = tk.Button(self, text="Edit", command=self.edit, width=10, font=10)
             self.edit_btn.pack(side=tk.LEFT)
             self.bind('<Return>', self.submit)
-            # self.update_geometry_height(150)
         except ValueError as ve:
             print(ve)
             self.secondary_color_entry.delete(0, 'end')
@@ -163,14 +167,23 @@ class AddLanguage(tk.Toplevel):
         self.parent.geometry(f'+{self.x}+{self.y - y_offset}')
 
     def submit(self, event):
-        self.save_input()
-        # TODO need to save the user's input in the config file
+        self.submit_click()
     
-    def submit_by_click(self):
-        self.save_input()
+    def submit_click(self):
+        self.parent.input_win.destroy()
+        self.destroy()
+        delattr(self.parent, 'input_win')
+        del self.parent.right_click1.__dict__['input_win']
 
-    def save_input(self):
-        print("save_input")
+    def save_input(self, key, **kwargs):
+        self.lang_config[key] = {}
+        if 'language' in kwargs:
+            self.lang_config[key]['language'] = kwargs['language']
+        if 'primary_color' in kwargs:
+            self.lang_config[key]['fg'] = kwargs['primary_color']
+        if 'secondary_color' in kwargs:
+            self.lang_config[key]['bg'] = kwargs['secondary_color']
+        self.parent.config.save_config(self.main_config)
 
     def edit(self):
         print("edit")

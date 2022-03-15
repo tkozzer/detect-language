@@ -16,7 +16,6 @@ class Language:
             raise KeyError("There was no 'win' key passed to constructor.")
         self.win = kwargs['win']
         self.config = self.win.config
-        self.languages = self.config.get_config()['languages']
         self.scim_list = self.win.config.get_config()['scim_list']
 
     def get_current_language(self) -> tuple:
@@ -24,6 +23,7 @@ class Language:
 
         # These two commands will be used in conjunction to give us the the current keyboard layout 
         # *note* There is a bug in macOS that shows the wrong keyboard layout when switching from certain languages to pinyin
+        self.languages = self.config.get_config()['languages']
         keyboard_layout_command = "defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleCurrentKeyboardLayoutInputSourceID"
         input_mode_command = 'defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | egrep "com.apple.inputmethod.SCIM.ITABC"'
         

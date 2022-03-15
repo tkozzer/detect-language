@@ -1,1 +1,57 @@
-{"languages": {"US": {"language": "English", "fg": "#ff4d4d", "bg": "#002868", "flag": ""}, "Spanish": {"language": "Spanish", "fg": "#FABD00", "bg": "#AD1519", "flag": ""}, "German-DIN-2137": {"language": "German", "fg": "#FFCE00", "bg": "black", "flag": ""}, "German": {"language": "German", "fg": "#FFCE00", "bg": "black", "flag": ""}, "Portuguese": {"language": "Portugese", "fg": "#046A38", "bg": "#DA291C", "flag": ""}, "PinyinKeyboard": {"language": "Chinese", "fg": "white", "bg": "#ff4d4d", "flag": ""}, "not_supported": {"language": "Language Not\n Supported", "fg": "white", "bg": "black", "flag": ""}}, "scim_list": ["WubihuaKeyboard", "PinyinKeyboard"], "config": {"win": {"x": 1119, "y": 968, "width": 300, "height": 120}, "label": {"width": 15, "height": 3, "font_type": "Helvetica", "font_size": 52, "click_count": 1}}}
+{
+  "languages": {
+    "US": {
+      "language": "English",
+      "fg": "#ff4d4d",
+      "bg": "#002868",
+      "flag": ""
+    },
+    "Spanish": {
+      "language": "Spanish",
+      "fg": "#FABD00",
+      "bg": "#AD1519",
+      "flag": ""
+    },
+    "German-DIN-2137": {
+      "language": "German",
+      "fg": "#FFCE00",
+      "bg": "black",
+      "flag": ""
+    },
+    "German": {
+      "language": "German",
+      "fg": "#FFCE00",
+      "bg": "black",
+      "flag": ""
+    },
+    "Portuguese": {
+      "language": "Portugese",
+      "fg": "#046A38",
+      "bg": "#DA291C",
+      "flag": ""
+    },
+    "not_supported": {
+      "language": "Language Not\n Supported",
+      "fg": "white",
+      "bg": "black",
+      "flag": ""
+    },
+    "PinyinKeyboard": {
+      "language": "Chinese",
+      "fg": "white",
+      "bg": "#ff4d4d",
+      "flag": ""
+    }
+  },
+  "scim_list": ["WubihuaKeyboard", "PinyinKeyboard"],
+  "config": {
+    "win": { "x": 1119, "y": 968, "width": 300, "height": 120 },
+    "label": {
+      "width": 15,
+      "height": 3,
+      "font_type": "Helvetica",
+      "font_size": 52,
+      "click_count": 1
+    }
+  }
+}
