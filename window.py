@@ -145,7 +145,7 @@ class Win(tk.Tk):
         self.geometry(f'+{x}+{y}')
 
         if hasattr(self, 'input_win'):
-            self.input_win.geometry(f'+{x}+{y + self.input_win.win_height - 10}')
+            self.input_win.geometry(f'+{x}+{y + self.win_height}')
 
     def clickwin(self, event):
         self._offsetx = event.x
