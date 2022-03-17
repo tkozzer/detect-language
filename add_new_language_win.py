@@ -49,27 +49,40 @@ class AddLanguage(tk.Toplevel):
         self.parent.right_click(event)
 
     def create_widgets(self):
+        # Labels
         self.current_lang_label = tk.Label(self, fg='white', bg='black', text=f"Current Language:\n{self.language}")
+        self.lang_label = tk.Label(self,fg='white', bg='black', text="Enter Language: ")
+        self.primary_color_label = tk.Label(self, fg='white', bg='black', text="Enter primary color: ")
+        self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
+        
+        # Seperators
         self.seperator1 = tk.Frame(self, bg='white', height=1, bd=0)
         self.seperator2 = tk.Frame(self, bg='white', height=1, bd=0)
-        self.lang_label = tk.Label(self,fg='white', bg='black', text="Enter Language: ")
+        
+        # Entries
         self.lang_entry = tk.Entry(self, bg="white", fg='black')
-        self.primary_color_label = tk.Label(self, fg='white', bg='black', text="Enter primary color: ")
         self.primary_color_entry = tk.Entry(self, bg="white", fg='black')
-        self.secondary_color_label = tk.Label(self, fg='white', bg='black', text="Enter secondary color: ")
         self.secondary_color_entry = tk.Entry(self, bg="white", fg='black')
+        
+        # Buttons
         self.color_btn = tk.Button(self, text="Pick a color", width=10, command=self.choose_color, font=10)
         self.next_btn = tk.Button(self, text="Next", width=9, command=self.next_btn_command, font=10)
+        
+        # Pack the widgets
         self.seperator1.pack(fill='x', pady=(10,5))
         self.current_lang_label.pack(pady=5)
         self.seperator2.pack(fill='x', pady=(5,5))
-        self.lang_label.pack()
+        self.lang_label.pack(pady= 10)
         self.lang_entry.pack()
+        self.next_btn.pack(pady=12)
+        
+        # Insert current language from OS and set focus on entry box
         self.lang_entry.insert(0, self.language)
         self.lang_entry.focus()
-        self.next_btn.pack(pady=12)
-        self.update_geometry_height(80)
-        self.move_window_up(self.win_height)
+        
+        # Increase the win_height of both windows and move both windows up
+        self.update_geometry_height(100)
+        self.move_window_up(self.win_height + self.parent.win_height)
 
     def bindings(self):
         ENTER_KEY = '<Return>'
@@ -81,60 +94,62 @@ class AddLanguage(tk.Toplevel):
         self.bind('<Button-1>', self.clickwin)
         self.bind('<Button-2>', self.right_click)
     
-    def lang_entry_bind(self,event):
+    def lang_entry_bind(self, event):
         try:
             v.validate_entry_input(self.lang_entry.get(), type="lang")
             self.primary_color_entry.focus()
-            self.lang_label.config(text=f'{self.lang_entry.get()}', pady=5)
+            self.lang_label.config(text=f'{self.lang_entry.get()}')
             self.lang_key = self.lang_entry.get()
-            self.lang_entry.destroy()
+            self.lang_entry.pack_forget()
             self.next_btn.pack_forget()
             self.primary_color_label.pack()
             self.primary_color_entry.pack()
             self.color_btn.pack(pady=(5,5), padx=(55, 1), side=tk.LEFT)
             self.next_btn.pack(padx=(10,10), side=tk.LEFT)
             self.update_geometry_height(40)
-            self.move_window_up(self.win_height)
         except ValueError as ve:
             print(ve)
             self.lang_entry.delete(0, 'end')
             self.lang_entry.focus()             
 
-    def primary_color_entry_bind(self,event):
+    def primary_color_entry_bind(self, event):
         try:
             v.validate_entry_input(self.primary_color_entry.get(), type="color")
             self.secondary_color_entry.focus()
-            self.primary_color_label.config(text=f'{self.primary_color_entry.get()}', pady=5, fg=self.primary_color_entry.get())
-            self.fg_key = self.primary_color_entry.get()
-            self.primary_color_entry.destroy()
+            primary_color = self.primary_color_entry.get()
+            self.lang_label.config(fg=primary_color, pady=5)
+            self.fg_key = primary_color
+            self.primary_color_entry.pack_forget()
+            self.primary_color_label.pack_forget()
             self.color_btn.pack_forget()
             self.next_btn.pack_forget()
             self.secondary_color_label.pack()
             self.secondary_color_entry.pack()
             self.color_btn.pack(pady=(5,5), padx=(55, 1), side=tk.LEFT)
             self.next_btn.pack(padx=(10,10), side=tk.LEFT)
-            self.update_geometry_height(40)
-            self.move_window_up(self.win_height)
         except ValueError as ve:
             print(ve)
             self.primary_color_entry.delete(0, 'end')
             self.primary_color_entry.focus()
         
-    def secondary_color_entry_bind(self,event):
+    def secondary_color_entry_bind(self, event):
         try:
             v.validate_entry_input(self.secondary_color_entry.get(), type="color")
             # This will add the increase/decrease binding back on
             self.parent.double_click_id = self.parent.bind('<Double-Button-1>', self.parent.increase_size)
-            self.secondary_color_label.config(text=f'{self.secondary_color_entry.get()}', fg=self.secondary_color_entry.get())
-            self.save_input(self.language, secondary_color=self.secondary_color_entry.get(), primary_color=self.fg_key, language=self.lang_key)
-            self.secondary_color_entry.destroy()
+            secondary_color = self.secondary_color_entry.get()
+            self.bg_key = secondary_color
+            self.lang_label.config(bg=secondary_color)
+            self.secondary_color_entry.pack_forget()
+            self.secondary_color_label.pack_forget()
             self.color_btn.pack_forget()
             self.next_btn.pack_forget()
             self.submit_btn = tk.Button(self, text="Submit", command=self.submit_click, width=10, font=10)
             self.submit_btn.pack(side=tk.LEFT, padx=(50, 20))
             self.edit_btn = tk.Button(self, text="Edit", command=self.edit, width=10, font=10)
             self.edit_btn.pack(side=tk.LEFT)
-            self.bind('<Return>', self.submit)
+            self.submit_id = self.bind('<Return>', self.submit)
+            self.update_geometry_height(-50)
         except ValueError as ve:
             print(ve)
             self.secondary_color_entry.delete(0, 'end')
@@ -163,13 +178,16 @@ class AddLanguage(tk.Toplevel):
         self.geometry(f'{self.win_width}x{self.win_height}')
 
     def move_window_up(self, y_offset):
-        self.geometry(f'+{self.x}+{self.y + self.parent.win_height - y_offset}')
-        self.parent.geometry(f'+{self.x}+{self.y - y_offset}')
+        self.update()
+        self.parent.update()
+        self.geometry(f'+{self.winfo_rootx()}+{self.winfo_rooty() + self.parent.win_height - y_offset}')
+        self.parent.geometry(f'+{self.winfo_rootx()}+{self.winfo_rooty() - y_offset}')
 
     def submit(self, event):
         self.submit_click()
     
     def submit_click(self):
+        self.save_input(self.language, secondary_color=self.bg_key, primary_color=self.fg_key, language=self.lang_key)
         self.parent.input_win.destroy()
         self.destroy()
         delattr(self.parent, 'input_win')
@@ -187,4 +205,19 @@ class AddLanguage(tk.Toplevel):
 
     def edit(self):
         print("edit")
+        self.unbind('<Return>', self.submit_id)
+        self.update_geometry_height(20)
+        self.submit_btn.pack_forget()
+        self.edit_btn.pack_forget()
+        self.lang_label.pack(pady= 10)
+        self.lang_entry.pack()
+        self.next_btn.pack(pady=12)
+        self.lang_entry.focus()
+        FOCUS_IN = '<FocusIn>'
+        self.lang_entry.bind(FOCUS_IN, lambda e: e.widget.select_range(0, tk.END))
+        self.primary_color_entry.bind(FOCUS_IN, lambda e: e.widget.select_range(0, tk.END))
+        self.secondary_color_entry.bind(FOCUS_IN, lambda e: e.widget.select_range(0, tk.END))
+        
+
+
 
