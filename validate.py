@@ -13,13 +13,15 @@ class Validator:
             validate_type = kwargs['type']
             
         if validate_type == 'lang':
-            if len(input) == 0 or len(input) >= 20:
-                raise ValueError("Please input anything greater than 0 and less than 30.")
+            if len(input) == 0 or len(input) >= 15:
+                raise ValueError("Please input anything greater than 0 and less than 15.")
             # raise ValueError("Language isn't accepted")
         if validate_type == 'color':
             # TODO check if input starts with a '#', if so make sure hex color is of correct length
             # else if color is in plaintext, make sure it is an acceptable tkinter color
             # raise ValueError("Color not accepted")
+            if len(input) == 0:
+                raise ValueError("Please input a valid color")
             if input[0] == "#":
                 regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
                 p = re.compile(regex)
